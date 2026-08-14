@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Best Lawyers Enhanced Profile landing page prototype.">
+  <title>Enhanced Profile | Best Lawyers</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header" data-site-header>
+    <div class="page-progress" aria-hidden="true"><span data-page-progress></span></div>
+    <div class="header-inner">
+      <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-navigation" data-menu-button>
+        <span></span><span></span><span></span>
+      </button>
+
+      <a class="brand" href="#top" aria-label="Best Lawyers landing page home">
+        <img src="assets/best-lawyers-logo.png" alt="Best Lawyers">
+      </a>
+
+      <nav class="desktop-navigation" aria-label="Landing page navigation">
+        <a href="#why-upgrade" data-nav-link>Why Upgrade</a>
+        <a href="#compare" data-nav-link>Compare</a>
+        <a href="#enhanced-profile" data-nav-link>Enhanced Profile</a>
+        <a href="#benefits" data-nav-link>Benefits</a>
+        <a href="#results" data-nav-link>Results</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="icon-link" href="https://www.bestlawyers.com/find-a-lawyer" aria-label="Search Best Lawyers">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
+        </a>
+        <a class="member-button" href="https://sso.bestlawyers.com/account/login">Member Access</a>
+        <a class="header-cta" href="#activate">Activate your Enhanced Profile</a>
+      </div>
+    </div>
+
+    <nav class="mobile-navigation" id="mobile-navigation" aria-label="Mobile navigation" hidden data-mobile-navigation>
+      <a href="#why-upgrade">Why Upgrade</a>
+      <a href="#compare">Compare</a>
+      <a href="#enhanced-profile">Enhanced Profile</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#results">Results</a>
+      <a href="#activate">Activate your Enhanced Profile</a>
+      <a href="https://sso.bestlawyers.com/account/login">Member Access</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top" data-scroll-section>
+      <div class="hero-grid container">
+        <div class="hero-copy" data-reveal>
+          <h1>Every month, over 1.6 million people search for a lawyer like you. Most never see your name.</h1>
+          <p class="hero-resolution"><em>Let’s change that.</em></p>
+        </div>
+
+        <div class="hero-search-stage" data-hero-stage aria-label="Best Lawyers search experience">
+          <div class="hero-search-shell">
+            <div class="search-field search-field-primary">
+              <span>“Best personal injury lawyer in New York”</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
+            </div>
+            <div class="search-field">
+              <span>“best medical malpractice lawyer near me”</span>
+              <span class="chevron" aria-hidden="true">▾</span>
+            </div>
+            <div class="search-actions">
+              <button type="button">Search</button>
+              <span>Browse All Lawyers <b aria-hidden="true">›</b></span>
+            </div>
+          </div>
+
+          <div class="hero-result-stack" aria-hidden="true">
+            <div class="result-card result-card-ghost result-card-one"><span></span><i></i><i></i><i></i></div>
+            <div class="result-card result-card-ghost result-card-two"><span></span><i></i><i></i><i></i></div>
+            <div class="result-card result-card-ghost result-card-three"><span></span><i></i><i></i><i></i></div>
+            <div class="result-card result-card-image">
+              <img src="assets/free-listing.png" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-metrics-wrap">
+        <div class="container hero-metrics" aria-label="Figures from the approved copy">
+          <div class="hero-metric"><strong>over 1.6 million</strong><span>people search for a lawyer like you</span></div>
+          <div class="hero-metric"><strong>top 5%</strong><span>of lawyers</span></div>
+          <div class="hero-metric"><strong>over 45 years</strong><span>of doing this</span></div>
+          <div class="hero-metric"><strong>less than 1%</strong><span>of potential clients ever click past page 2</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recognition-section" id="why-upgrade" data-scroll-section>
+      <div class="container recognition-grid">
+        <div class="recognition-prose" data-reveal>
+          <p>Have you ever wondered why some law firms seem to have no problem getting new clients and grow year over year… while others are almost invisible?</p>
+          <p>Well, the answer is quite simple…</p>
+          <p>At Best Lawyers, as you know, we have a merit-based voting system. Potential clients want to know who the top 5% of lawyers are every year. If you’re reading this right now, you’re part of that prestigious selection. However, that recognition comes with a dilemma for us…</p>
+        </div>
+
+        <div class="recognition-statements" aria-label="The visibility dilemma">
+          <p data-line-reveal>Winning the vote doesn't mean maximum visibility.</p>
+          <p data-line-reveal>Nor maximum searchability.</p>
+          <p data-line-reveal>Nor maximum referrals from those potential clients.</p>
+        </div>
+      </div>
+
+      <div class="container free-listing-intro" data-reveal>
+        <h2>Instead, you’ve been given a free listing which looks like this:</h2>
+        <figure class="free-listing-window">
+          <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+          <div class="free-listing-canvas">
+            <div class="listing-echo listing-echo-one" aria-hidden="true"></div>
+            <div class="listing-echo listing-echo-two" aria-hidden="true"></div>
+            <img src="assets/free-listing.png" alt="Example of a Best Lawyers free listing for Naifeh, Smith and Greer LLP">
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="counterflow-track" data-counterflow data-scroll-section>
+      <div class="counterflow-sticky">
+        <div class="counterflow-composition container" data-counterflow-composition>
+          <div class="counterflow-copy">
+            <p>There’s nothing intrinsically wrong with this — you’ve earned it and it gets you a space in the “Best Lawyers” platform (one of the most recognized and trusted platforms in the legal space, by both firms and clients).</p>
+            <p>Like any classified space, it gets your name on the platform alongside hundreds of other lawyers in your same category and area.</p>
+            <p>Every year, new top lawyers get voted and we’re happy to provide them with a free listing on our platform so clients can find them and hire them.</p>
+          </div>
+
+          <h2 class="counterflow-declaration">But it <em>doesn't</em> get you distribution.</h2>
+
+          <div class="counterflow-consequence">
+            <p>And over 45 years of doing this… we’ve given out <em>A LOT</em> of free listings. So as you can imagine when a potential client is on ChatGPT, or Google, or inside “Best Lawyers” platform, searching: <span>“Best personal injury lawyer in New York"...</span> or, <span>"best medical malpractice lawyer near me"...</span> Lawyers who've earned recognition — who’ve earned the trust of the peers and clients — <strong>are not being seen.</strong> They are at the bottom of the search pages… the place where most potential clients never get to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="instant-track" id="visibility" data-instant-track data-scroll-section>
+      <div class="instant-sticky">
+        <div class="container instant-layout">
+          <div class="instant-stat-copy" data-instant-stat>
+            <p>If you’ve ever advertised on other platforms, you’ve probably seen the stats about search placement.</p>
+            <p>Statistically speaking, <strong>less than 1% of potential clients</strong> ever click past page 2 on ANY search engine!</p>
+          </div>
+
+          <div class="instant-visual" aria-hidden="true">
+            <div class="page-stack">
+              <div class="page-card page-card-back"></div>
+              <div class="page-card page-card-mid"></div>
+              <div class="page-card page-card-front">
+                <div class="page-card-top"><span></span><i></i></div>
+                <div class="page-row"><b></b><span></span></div>
+                <div class="page-row"><b></b><span></span></div>
+                <div class="page-row"><b></b><span></span></div>
+                <div class="page-row page-row-muted"><b></b><span></span></div>
+                <div class="page-pagination"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+
+            <div class="instant-headline" data-instant-headline>
+              <div><span>Get instant</span> <em data-depth-word>visibility…</em></div>
+              <small>with the click of a button</small>
+            </div>
+          </div>
+
+          <div class="instant-solution" data-instant-solution>
+            <p>So, we’ve come up with a solution to help your firm gain even more prominence across multiple search channels, so you can get discovered by new clients who are actively viewing and choosing lawyers right now.</p>
+            <p>Best Lawyers gets over 1.6 million visits a month, and that number has been growing year over year.</p>
+            <p>And because our website gets so much traffic, firms in our directory tend to get picked up quite often in both Google and AI search queries.</p>
+            <p>So, how can you and your firm take advantage of this traffic rush?</p>
+            <p class="instant-answer">You can upgrade to an Enhanced Profile today.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison-track" id="compare" data-comparison-track data-scroll-section>
+      <div class="comparison-sticky">
+        <div class="container comparison-stage">
+          <h2>Free Listing vs Enhanced Listing</h2>
+
+          <div class="comparison-frame">
+            <article class="comparison-column comparison-free" data-comparison-free>
+              <header><h3>Free Listing</h3></header>
+              <ul>
+                <li class="yes">Firm name listed</li>
+                <li class="yes">Award category labels shown</li>
+                <li class="no">No logo</li>
+                <li class="no">No bio</li>
+                <li class="no">No photo</li>
+                <li class="no">No website link</li>
+                <li class="no">No firm overview</li>
+                <li class="no">No practice areas or client comments shown</li>
+                <li class="no">Ranked last in search results</li>
+                <li class="no">Not found in AI searches</li>
+              </ul>
+            </article>
+
+            <div class="comparison-axis" aria-hidden="true"><span></span></div>
+
+            <article class="comparison-column comparison-enhanced" data-comparison-enhanced>
+              <header><h3>Enhanced Listing</h3></header>
+              <ul>
+                <li class="yes">Everything in Free, plus:</li>
+                <li class="yes">Top placement in search results</li>
+                <li class="yes">Better SEO with backlink to your website</li>
+                <li class="yes">Bio</li>
+                <li class="yes">Photo</li>
+                <li class="yes">Firm logo displayed</li>
+                <li class="yes">Firm overview shown in preview</li>
+                <li class="yes">Headquarters location listed</li>
+                <li class="yes">Award count shown (not just category labels)</li>
+                <li class="yes">Recognized practice areas and lawyers listed</li>
+                <li class="yes">Client Endorsed badge</li>
+                <li class="yes">Link to client comments</li>
+                <li class="yes">Found in AI searches</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-story" id="enhanced-profile" data-profile-story data-scroll-section>
+      <div class="profile-sticky">
+        <div class="container profile-story-grid">
+          <div class="profile-story-copy">
+            <h2>What an “Enhanced Profile Listing” looks like</h2>
+            <p>With a few clicks of your mouse, you can upgrade your profile for maximum visibility and reach. You can finally have a Best Lawyers profile that’s worthy of your title, and <strong>built to get more engagement not only in our system… but in the biggest search algorithms on the planet.</strong></p>
+            <p class="example-label">Here’s an example:</p>
+            <div class="profile-story-second" data-profile-second>
+              <p>When one of those 1.6 million potential clients click on your profile, it opens your whole exhibit — practice areas, biography, client testimonials, case history, <strong>everything a client needs to say “This firm seems great, I should book a call!”</strong></p>
+              <a class="button button-outline" href="#activate">Claim Your Enhanced Profile <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+
+          <div class="profile-product-stage" data-profile-stage>
+            <div class="product-browser">
+              <div class="product-browser-bar" aria-hidden="true">
+                <span></span><span></span><span></span><i></i>
+              </div>
+              <div class="product-browser-viewport">
+                <img class="product-listing" src="assets/enhanced-listing.png" alt="Example of an enhanced Best Lawyers listing for Naifeh, Smith and Greer LLP" data-product-listing>
+                <div class="product-profile-wrap" data-product-profile-wrap>
+                  <img class="product-profile" src="assets/enhanced-profile.png" alt="Example of a complete enhanced Best Lawyers lawyer profile" data-product-profile>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pay-section" data-scroll-section>
+      <div class="container pay-grid">
+        <div class="pay-question" data-reveal-left>
+          <h2>Isn’t this “pay to play”?</h2>
+          <p>Fair question.</p>
+        </div>
+
+        <div class="pay-copy" data-reveal-right>
+          <p>After all, you’ve been voted top 5%, by your peers. Isn’t that enough?</p>
+          <p>There’s actually no way to “buy your way in” to a Best Lawyers award. It’s impossible. It’s not how we work.</p>
+          <p>When you upgrade, you simply unlock more distribution.</p>
+          <p>Kind of like how if you wanted to get more traffic, you can buy more ads, billboards, or direct mail pieces. Those are other forms of distribution.</p>
+          <p>We’ve built one of the most widely recognized websites in the world for people who are looking to hire lawyers just like you. We’ve already figured out the distribution piece for you. This expands your reach and visibility and gives you an even greater chance of getting in front of clients who are actively searching for someone like you, every single hour of every day of the year.</p>
+        </div>
+      </div>
+      <div class="container pay-conclusion" data-reveal>
+        <p>Our Enhanced Profile Listing gives you a more unique, targeted distribution channel for your firm.</p>
+      </div>
+    </section>
+
+    <section class="benefits-intro" id="benefits" data-scroll-section>
+      <div class="container benefits-intro-grid">
+        <h2 data-reveal>Get discovered in more AI searches</h2>
+        <div data-reveal>
+          <p>The AI revolution is here and the genie isn’t going back into the bottle.</p>
+          <p>Right now, you have a unique opportunity in front of you to cement your name and your firm in the AI algorithms, before most of your competitors do.</p>
+          <p>When you upgrade your profile today, you gain a few distinct advantages:</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits-track" data-benefits-track>
+      <div class="benefits-sticky">
+        <div class="benefits-rail" data-benefits-rail>
+          <article class="benefit-panel benefit-dark">
+            <h3>More AI Traffic Potential</h3>
+            <p>A few years ago “Best Lawyers” decided to take a bet. We (rightly) predicted that AI will be THE new “search engine”. Well, it turns out we were right. Because We are now the #1 rated app in ChatGPT. ChatGPT now has over 900 million weekly users — more than double what it had a year ago. So when clients search for “best lawyer….” on the AI apps, they’ll find us… and then they have a chance to find your Enhanced Profile.</p>
+          </article>
+
+          <article class="benefit-panel benefit-gold">
+            <h3>Improved SEO</h3>
+            <p>With your Enhanced Profile Listing, you get an SEO backlink to your website. Google and AI searches like that. Because, we’ve been around for 45 years (rated by Corporate Counsel Magazine as the most respected referral list of attorneys in practice). So when we add your link to our website, it means real “SEO Juice”. It tells Google and AI: You’re trusted and should be ranked.</p>
+          </article>
+
+          <article class="benefit-panel benefit-white">
+            <h3>20x More Engagement</h3>
+            <p>We can’t quite put our finger on it or tell you exactly why… But our analysis has shown that our platform gets 20 times more engagement from clients compared to other sources. Clients who are clicking through, going to attorney websites, and making quick calls and appointments. Perhaps it’s the high intent. Or our high recognition. Either way, our lawyer clients with an Enhanced Profile Listing are pleased with the results.</p>
+          </article>
+
+          <article class="benefit-panel benefit-coral">
+            <h3>1.6M High Intent clients searching every month (and growing)</h3>
+            <p>When you spend money in other marketing mediums, you might have to invest a large amount of capital if you want to get any real results. But those types of leads aren’t always considered “high intent”. Rather, sometimes, “casual browsers.” People come to our site because they’re looking to hire a lawyer right now. Currently, at the time of this writing, we’re at 1.6 million visitors. With an Enhanced Profile Listing your new profile shows up at the top of our searches and gets you in front of even more potential clients every month.</p>
+          </article>
+
+          <article class="benefit-panel benefit-navy">
+            <h3>Borrowed trust</h3>
+            <p>Clients and other firms already trust our name before they even click on a listing. When your firm shows up inside an Enhanced Profile — with our name “attached” to yours — there’s a trust transfer, which can go a long way with new prospects.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials-section" id="results" data-scroll-section>
+      <div class="container testimonials-top">
+        <h2>What Others Say</h2>
+        <div class="carousel-controls">
+          <button type="button" aria-label="Previous testimonial" data-testimonial-prev>←</button>
+          <button type="button" aria-label="Next testimonial" data-testimonial-next>→</button>
+        </div>
+      </div>
+
+      <div class="testimonial-viewport" data-testimonial-viewport>
+        <div class="testimonial-rail" data-testimonial-rail>
+          <article class="testimonial-card">
+            <div class="testimonial-mark" aria-hidden="true">S</div>
+            <h3>SiebenCarey — Personal Injury, Minneapolis, MN</h3>
+            <blockquote>"We still receive between 4 to 10 leads per month from Best Lawyers, which I consider good, and these leads typically represent strong cases."</blockquote>
+            <p>— Steve, SiebenCarey</p>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="testimonial-mark" aria-hidden="true">M</div>
+            <h3>McCandlish Lillard — Estate Planning, Trusts, Family Law, Northern Virginia / D.C.</h3>
+            <blockquote>"After being featured as a top estate lawyer by Washingtonian and the assistance of Best Lawyers, I noticed a positive uptick in quality clients."</blockquote>
+            <p>— Melinda, McCandlish Lillard PC</p>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="testimonial-mark" aria-hidden="true">B</div>
+            <h3>Bienert Katzman Littrell Williams LLP — White-Collar Defense, Appellate, Complex Litigation, Los Angeles / Orange County</h3>
+            <blockquote>"Best Lawyers appears on the first page of search results for our firm's name, which means it's one of the first things a referred client sees when they look us up."</blockquote>
+            <p>— Leah, Bienert Katzman Littrell Williams LLP</p>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="testimonial-mark" aria-hidden="true">L</div>
+            <h3>Lynch, Traub, Keefe &amp; Errante — Personal Injury, Medical Malpractice, New Haven, CT</h3>
+            <blockquote>"The firm appeared in some searches a few months ago on platforms like ChatGPT and Claude when searching for lawyers in New Haven, and more firms are reporting intakes from clients who found them via AI."</blockquote>
+            <p>— Susan, Lynch, Traub, Keefe &amp; Errante PC</p>
+          </article>
+
+          <article class="testimonial-card testimonial-publication">
+            <div class="testimonial-mark" aria-hidden="true">CC</div>
+            <h3>Corporate Counsel Magazine</h3>
+            <blockquote>"The most respected referral list of attorneys in practice."</blockquote>
+            <p>— Corporate Counsel Magazine</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="moat-section" data-scroll-section>
+      <div class="container moat-grid">
+        <div class="moat-heading" data-reveal>
+          <h2>Build Your Moat… Before Others Leap Frog You</h2>
+        </div>
+
+        <div class="moat-content" data-reveal>
+          <div class="moat-quote">
+            <p>Charlie Munger — attorney turned legendary investor — once said:</p>
+            <blockquote>“One must keep their eye on the ball of widening the moat to be a steward of the competitive advantage that came to you."</blockquote>
+          </div>
+
+          <div class="moat-copy">
+            <p>Every firm needs a moat to grow, thrive, and even survive long term. A moat that:</p>
+            <ul>
+              <li>Keeps you found first — in various ways, not just referrals</li>
+              <li>Keeps your recognition working — while you sleep</li>
+              <li>Keeps new clients coming in consistently — Compounding referrals</li>
+            </ul>
+            <p class="moat-earned">You’ve earned your prestigious title… the last thing you want to do is suppress it…</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="activate" data-scroll-section>
+      <div class="container final-cta-grid">
+        <div>
+          <h2>What to do now</h2>
+          <p>If you’re ready to see what an Enhanced Profile can do for your firm and tap into a whole new level of visibility and engagement, then upgrade today:</p>
+        </div>
+        <a class="button button-coral" href="#activate">Activate your Enhanced Profile</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <a class="footer-brand" href="https://www.bestlawyers.com/" aria-label="Best Lawyers home"><img src="assets/best-lawyers-logo.png" alt="Best Lawyers"></a>
+      <div class="footer-actions">
+        <a href="https://www.bestlawyers.com/find-a-lawyer">Find a Lawyer</a>
+        <a href="https://www.bestlawyers.com/nominate">Nominate</a>
+        <a href="https://sso.bestlawyers.com/account/login">Member Access</a>
+      </div>
+    </div>
+
+    <div class="container footer-links">
+      <div>
+        <h2>Best Lawyers</h2>
+        <a href="https://www.bestlawyers.com/about-us">About</a>
+        <a href="https://www.bestlawyers.com/methodology">Methodology</a>
+        <a href="https://www.bestlawyers.com/careers">Careers</a>
+        <a href="https://www.bestlawyers.com/contact-us">Contact Us</a>
+      </div>
+      <div>
+        <h2>For Lawyers</h2>
+        <a href="https://www.bestlawyers.com/nominate">Nominate a Lawyer</a>
+        <a href="https://www.bestlawyers.com/publicizing-guidelines">Publicizing Guidelines</a>
+        <a href="https://www.bestlawyers.com/store/publications-and-subscriptions">Store</a>
+      </div>
+      <div>
+        <h2>Legal</h2>
+        <a href="https://www.bestlawyers.com/privacy-policy">Privacy Policy</a>
+        <a href="https://www.bestlawyers.com/cookie-policy">Cookie Policy</a>
+        <a href="https://www.bestlawyers.com/terms-and-conditions">Terms and Conditions</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>© 2026 Best Lawyers. All Rights Reserved.</span>
+      <span>Purely Peer Reviewed®</span>
+    </div>
+  </footer>
+</body>
+</html>
