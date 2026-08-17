@@ -466,12 +466,16 @@ a:focus-visible {
 .hero-search-shell {
   position: relative;
   z-index: 4;
-  width: min(100%, 585px);
-  padding: 28px 30px 24px;
-  border: 1px solid #bfc5ca;
+  width: min(100%, 620px);
   border-radius: 14px;
-  background: var(--white);
   box-shadow: var(--shadow-medium);
+  overflow: hidden;
+}
+
+.hero-search-shell img {
+  width: 100%;
+  display: block;
+  object-fit: contain;
 }
 
 .search-field {
@@ -2492,7 +2496,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero-search-shell {
-    padding: 22px;
+    width: min(100%, 620px);
   }
 
   .hero-result-stack {
@@ -2807,7 +2811,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero-search-shell {
-    padding: 18px;
+    width: 100%;
   }
 
   .search-field {
