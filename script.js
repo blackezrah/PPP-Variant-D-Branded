@@ -83,6 +83,7 @@ document.documentElement.classList.add("js");
     const benefitsTrack = document.querySelector("[data-benefits-track]");
     const benefitsRail = document.querySelector("[data-benefits-rail]");
     const benefitsSticky = benefitsTrack?.querySelector(".benefits-sticky");
+    const finalCta = document.querySelector("[data-final-cta]");
     const heroStage = document.querySelector("[data-hero-stage]");
     const navLinks = [...document.querySelectorAll("[data-nav-link]")];
 
@@ -128,7 +129,8 @@ document.documentElement.classList.add("js");
         comparison: getScrollMetrics(comparisonTrack),
         profile: getScrollMetrics(profileStory),
         pay: getOffsetScrollMetrics(payRevealTarget, 0.7, payRevealEnd),
-        benefits: getScrollMetrics(benefitsTrack)
+        benefits: getScrollMetrics(benefitsTrack),
+        finalCta: getOffsetScrollMetrics(finalCta, 0.82, 0.28)
       };
 
       if (benefitsTrack && benefitsRail && benefitsSticky && window.innerWidth > 820 && !captureMode) {
@@ -237,6 +239,29 @@ document.documentElement.classList.add("js");
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
     }
 
+    function updateFinalCta() {
+      if (!finalCta || captureMode) return;
+      const progress = progressFor(metrics.finalCta);
+      const kicker = easeOutCubic(range(progress, 0.02, 0.18));
+      const lineOne = easeOutCubic(range(progress, 0.12, 0.34));
+      const lineTwo = easeOutCubic(range(progress, 0.28, 0.52));
+      const rule = easeInOutCubic(range(progress, 0.42, 0.64));
+      const copy = easeOutCubic(range(progress, 0.56, 0.78));
+      const button = easeOutCubic(range(progress, 0.72, 0.94));
+
+      setProperty(finalCta, "--final-kicker-opacity", kicker.toFixed(3));
+      setProperty(finalCta, "--final-kicker-y", `${lerp(22, 0, kicker).toFixed(2)}px`);
+      setProperty(finalCta, "--final-line-one-opacity", lineOne.toFixed(3));
+      setProperty(finalCta, "--final-line-one-y", `${lerp(34, 0, lineOne).toFixed(2)}px`);
+      setProperty(finalCta, "--final-line-two-opacity", lineTwo.toFixed(3));
+      setProperty(finalCta, "--final-line-two-y", `${lerp(42, 0, lineTwo).toFixed(2)}px`);
+      setProperty(finalCta, "--final-rule-scale", rule.toFixed(3));
+      setProperty(finalCta, "--final-copy-opacity", copy.toFixed(3));
+      setProperty(finalCta, "--final-copy-y", `${lerp(28, 0, copy).toFixed(2)}px`);
+      setProperty(finalCta, "--final-button-opacity", button.toFixed(3));
+      setProperty(finalCta, "--final-button-y", `${lerp(26, 0, button).toFixed(2)}px`);
+    }
+
     function updateHeroParallax() {
       if (!heroStage || prefersReducedMotion.matches || captureMode) return;
       const hero = document.querySelector(".hero");
@@ -276,6 +301,19 @@ document.documentElement.classList.add("js");
 
       if (prefersReducedMotion.matches || captureMode) {
         setProperty(payHeadline, "--pay-headline-clip", "100%");
+        if (finalCta) {
+          setProperty(finalCta, "--final-kicker-opacity", "1");
+          setProperty(finalCta, "--final-kicker-y", "0px");
+          setProperty(finalCta, "--final-line-one-opacity", "1");
+          setProperty(finalCta, "--final-line-one-y", "0px");
+          setProperty(finalCta, "--final-line-two-opacity", "1");
+          setProperty(finalCta, "--final-line-two-y", "0px");
+          setProperty(finalCta, "--final-rule-scale", "1");
+          setProperty(finalCta, "--final-copy-opacity", "1");
+          setProperty(finalCta, "--final-copy-y", "0px");
+          setProperty(finalCta, "--final-button-opacity", "1");
+          setProperty(finalCta, "--final-button-y", "0px");
+        }
         return;
       }
       updateHeroParallax();
@@ -285,6 +323,7 @@ document.documentElement.classList.add("js");
       updateProfileStory();
       updatePayHeadlineReveal();
       updateBenefits();
+      updateFinalCta();
     }
 
     function requestUpdate() {
