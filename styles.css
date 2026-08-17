@@ -400,12 +400,12 @@ a:focus-visible {
 }
 
 .hero-copy {
-  max-width: 980px;
+  max-width: 820px;
 }
 
 .hero h1 {
   margin-bottom: 38px;
-  font-size: clamp(31px, 2.45vw, 38px);
+  font-size: clamp(33px, 2.58vw, 40px);
   line-height: 1.08;
 }
 
@@ -2051,7 +2051,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero h1 {
-    font-size: clamp(29px, 2.7vw, 34px);
+    font-size: clamp(31px, 2.85vw, 36px);
   }
 
   .recognition-grid,
