@@ -78,6 +78,8 @@ document.documentElement.classList.add("js");
     const profileGrid = profileStory?.querySelector(".profile-story-grid");
     const productProfile = document.querySelector("[data-product-profile]");
     const productProfileWrap = document.querySelector("[data-product-profile-wrap]");
+    const paySection = document.querySelector("[data-pay-section]");
+    const payHeadline = document.querySelector("[data-pay-headline]");
     const benefitsTrack = document.querySelector("[data-benefits-track]");
     const benefitsRail = document.querySelector("[data-benefits-rail]");
     const benefitsSticky = benefitsTrack?.querySelector(".benefits-sticky");
@@ -102,12 +104,30 @@ document.documentElement.classList.add("js");
       };
     }
 
+    function getOffsetScrollMetrics(element, startViewportRatio, endViewportRatio) {
+      if (!element) return { top: 0, distance: 1 };
+      const rect = element.getBoundingClientRect();
+      const top = window.scrollY + rect.top;
+      const viewportHeight = window.innerHeight - getHeaderHeight();
+      const start = top - viewportHeight * startViewportRatio;
+      const end = top + element.offsetHeight - viewportHeight * endViewportRatio;
+
+      return {
+        top: start,
+        distance: Math.max(1, end - start)
+      };
+    }
+
     function refreshMetrics() {
+      const payRevealTarget = window.innerWidth <= 820 ? payHeadline : paySection;
+      const payRevealEnd = window.innerWidth <= 820 ? 0.38 : 0.8;
+
       metrics = {
         counterflow: getScrollMetrics(counterflowTrack),
         instant: getScrollMetrics(instantTrack),
         comparison: getScrollMetrics(comparisonTrack),
         profile: getScrollMetrics(profileStory),
+        pay: getOffsetScrollMetrics(payRevealTarget, 0.7, payRevealEnd),
         benefits: getScrollMetrics(benefitsTrack)
       };
 
@@ -207,6 +227,13 @@ document.documentElement.classList.add("js");
       benefitsRail.style.transform = `translate3d(${-maxScroll * progress}px, 0, 0)`;
     }
 
+    function updatePayHeadlineReveal() {
+      if (!paySection || !payHeadline || captureMode) return;
+      const progress = progressFor(metrics.pay);
+      const bottomInset = lerp(100, 0, progress);
+      setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
+    }
+
     function updateHeroParallax() {
       if (!heroStage || prefersReducedMotion.matches || captureMode) return;
       const hero = document.querySelector(".hero");
@@ -244,12 +271,16 @@ document.documentElement.classList.add("js");
       updatePageProgress();
       updateActiveNavigation();
 
-      if (prefersReducedMotion.matches || captureMode) return;
+      if (prefersReducedMotion.matches || captureMode) {
+        setProperty(payHeadline, "--pay-headline-clip", "100%");
+        return;
+      }
       updateHeroParallax();
       updateCounterflow();
       updateInstant();
       updateComparison();
       updateProfileStory();
+      updatePayHeadlineReveal();
       updateBenefits();
     }
 

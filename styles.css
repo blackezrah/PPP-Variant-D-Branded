@@ -1466,9 +1466,24 @@ a:focus-visible {
 }
 
 .pay-question h2 {
+  --pay-headline-clip: 100%;
+  position: relative;
   margin-bottom: 30px;
   font-size: clamp(42px, 3.75vw, 66px);
   line-height: .98;
+}
+
+.pay-headline-base {
+  display: block;
+}
+
+.pay-headline-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: var(--coral);
+  clip-path: inset(0 0 var(--pay-headline-clip) 0);
+  pointer-events: none;
 }
 
 .pay-question p {
