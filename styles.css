@@ -400,12 +400,12 @@ a:focus-visible {
 }
 
 .hero-copy {
-  max-width: 820px;
+  max-width: 900px;
 }
 
 .hero h1 {
   margin-bottom: 38px;
-  font-size: clamp(33px, 2.58vw, 40px);
+  font-size: clamp(36px, 3vw, 52px);
   line-height: 1.08;
 }
 
@@ -709,7 +709,7 @@ a:focus-visible {
   padding: 28px 0;
   border-bottom: 1px solid var(--line);
   font-family: var(--display);
-  font-size: clamp(34px, 3vw, 52px);
+  font-size: clamp(31px, 2.55vw, 44px);
   line-height: 1.04;
   opacity: .18;
   transform: translateY(22px);
@@ -729,7 +729,7 @@ a:focus-visible {
   max-width: 1080px;
   margin: 0 auto 58px;
   text-align: center;
-  font-size: clamp(36px, 3.35vw, 58px);
+  font-size: clamp(32px, 2.75vw, 48px);
   line-height: 1.04;
 }
 
@@ -882,7 +882,7 @@ a:focus-visible {
 .counterflow-declaration {
   margin: 0;
   max-width: 650px;
-  font-size: clamp(52px, 4.8vw, 86px);
+  font-size: clamp(44px, 3.9vw, 68px);
   line-height: .98;
 }
 
@@ -1120,7 +1120,7 @@ a:focus-visible {
 
 .instant-headline > div {
   font-family: var(--display);
-  font-size: clamp(44px, 4vw, 68px);
+  font-size: clamp(38px, 3.35vw, 56px);
   line-height: .98;
   white-space: nowrap;
 }
@@ -1174,7 +1174,7 @@ a:focus-visible {
 .comparison-stage > h2 {
   margin: 0 0 34px;
   text-align: center;
-  font-size: clamp(42px, 3.8vw, 64px);
+  font-size: clamp(36px, 3vw, 52px);
   line-height: 1;
 }
 
@@ -1326,7 +1326,7 @@ a:focus-visible {
 
 .profile-story-copy h2 {
   margin-bottom: 30px;
-  font-size: clamp(42px, 3.65vw, 64px);
+  font-size: clamp(36px, 3vw, 52px);
   line-height: 1.02;
 }
 
@@ -1467,7 +1467,7 @@ a:focus-visible {
 
 .pay-question h2 {
   margin-bottom: 30px;
-  font-size: clamp(50px, 4.75vw, 82px);
+  font-size: clamp(42px, 3.75vw, 66px);
   line-height: .98;
 }
 
@@ -1492,7 +1492,7 @@ a:focus-visible {
   border-top: 1px solid rgba(201,163,92,.65);
   color: var(--gold-light);
   font-family: var(--display);
-  font-size: clamp(30px, 2.9vw, 48px);
+  font-size: clamp(28px, 2.4vw, 40px);
   line-height: 1.06;
   text-align: center;
 }
@@ -1512,7 +1512,7 @@ a:focus-visible {
 
 .benefits-intro h2 {
   margin: 0;
-  font-size: clamp(46px, 4.55vw, 78px);
+  font-size: clamp(38px, 3.55vw, 62px);
   line-height: .98;
 }
 
@@ -1567,7 +1567,7 @@ a:focus-visible {
   max-width: 700px;
   margin-bottom: 30px;
   font-family: var(--display);
-  font-size: clamp(42px, 3.9vw, 66px);
+  font-size: clamp(36px, 3.25vw, 54px);
   font-weight: 400;
   line-height: .96;
   letter-spacing: 0;
@@ -1624,7 +1624,7 @@ a:focus-visible {
 
 .testimonials-top h2 {
   margin: 0;
-  font-size: clamp(44px, 3.8vw, 66px);
+  font-size: clamp(38px, 3vw, 54px);
   line-height: 1;
 }
 
@@ -1754,7 +1754,7 @@ a:focus-visible {
 
 .moat-heading h2 {
   margin: 0;
-  font-size: clamp(46px, 4.55vw, 78px);
+  font-size: clamp(38px, 3.55vw, 62px);
   line-height: .98;
 }
 
@@ -1808,7 +1808,7 @@ a:focus-visible {
 .moat-earned {
   color: var(--coral);
   font-family: var(--display);
-  font-size: clamp(29px, 2.3vw, 42px);
+  font-size: clamp(27px, 2vw, 36px);
   line-height: 1.12;
 }
 
@@ -1828,7 +1828,7 @@ a:focus-visible {
 
 .final-cta h2 {
   margin-bottom: 12px;
-  font-size: clamp(38px, 3.25vw, 58px);
+  font-size: clamp(34px, 2.8vw, 48px);
   line-height: 1;
 }
 
@@ -2057,7 +2057,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero h1 {
-    font-size: clamp(31px, 2.85vw, 36px);
+    font-size: clamp(36px, 3vw, 52px);
   }
 
   .recognition-grid,
@@ -2227,7 +2227,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero h1 {
-    font-size: clamp(38px, 7vw, 52px);
+    font-size: clamp(34px, 6.3vw, 46px);
   }
 
   .hero h1 span,
@@ -2337,7 +2337,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .counterflow-declaration {
-    font-size: clamp(44px, 11vw, 68px);
+    font-size: clamp(40px, 9vw, 58px);
   }
 
   .instant-layout {
@@ -2385,7 +2385,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .instant-headline > div {
-    font-size: clamp(42px, 10.5vw, 64px);
+    font-size: clamp(36px, 8vw, 54px);
     white-space: normal;
   }
 
@@ -2491,7 +2491,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .benefit-panel h3 {
-    font-size: clamp(44px, 11vw, 64px);
+    font-size: clamp(38px, 9vw, 54px);
   }
 
   .testimonial-rail {
@@ -2555,7 +2555,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .hero h1 {
-    font-size: 38px;
+    font-size: 34px;
   }
 
   .hero-resolution {
@@ -2584,7 +2584,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .recognition-statements p {
-    font-size: 39px;
+    font-size: 35px;
   }
 
   .free-listing-intro h2,
@@ -2593,7 +2593,7 @@ body.capture-mode .benefit-panel:last-child {
   .benefits-intro h2,
   .testimonials-top h2,
   .moat-heading h2 {
-    font-size: 44px;
+    font-size: 38px;
   }
 
   .counterflow-consequence {
@@ -2619,7 +2619,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .instant-headline > div {
-    font-size: 40px;
+    font-size: 36px;
   }
 
   .comparison-column header,
@@ -2629,7 +2629,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .pay-question h2 {
-    font-size: 58px;
+    font-size: 44px;
   }
 
   .benefit-panel {
@@ -2637,7 +2637,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .benefit-panel h3 {
-    font-size: 42px;
+    font-size: 36px;
   }
 
   .benefit-panel p {
