@@ -1490,13 +1490,14 @@ a:focus-visible {
   --second-y: 44px;
   --listing-opacity: 1;
   --listing-scale: 1;
+  --listing-cta-glow: 0;
   --profile-opacity: 0;
   --profile-y: 0px;
   --browser-scale: .96;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(380px, .78fr) minmax(620px, 1.22fr);
-  gap: 70px;
+  grid-template-columns: minmax(360px, .7fr) minmax(680px, 1.3fr);
+  gap: 58px;
   align-items: center;
   padding-top: 76px;
   padding-bottom: 76px;
@@ -1585,45 +1586,65 @@ a:focus-visible {
   position: relative;
   height: min(640px, calc(100svh - 176px));
   overflow: hidden;
-  background: #f3f3ef;
+  background: #f7f7f4;
 }
 
 .product-listing {
   position: absolute;
-  left: 5%;
+  left: 50%;
   top: 50%;
-  width: 90%;
+  width: min(46%, 390px);
   opacity: var(--listing-opacity);
-  transform: translateY(-50%) scale(var(--listing-scale));
+  transform: translate(-50%, -50%) scale(var(--listing-scale));
   filter: drop-shadow(0 18px 28px rgba(17,23,30,.12));
   will-change: transform, opacity;
+}
+
+.product-listing img {
+  width: 100%;
+  max-height: min(560px, calc(100svh - 254px));
+  display: block;
+  object-fit: contain;
+}
+
+.product-listing::after {
+  content: "";
+  position: absolute;
+  left: 7%;
+  bottom: 3.5%;
+  width: 31%;
+  height: 7%;
+  border: 2px solid rgba(239,64,70,.72);
+  border-radius: 999px;
+  opacity: var(--listing-cta-glow);
+  box-shadow: 0 0 0 7px rgba(239,64,70,.08);
+  pointer-events: none;
 }
 
 .product-profile-wrap {
   position: absolute;
   inset: 0;
   display: flex;
+  align-items: center;
   justify-content: center;
+  padding: 22px;
   overflow: hidden;
   opacity: var(--profile-opacity);
   background: var(--white);
   will-change: opacity;
 }
 
-.product-profile-wrap.product-asset-slot {
-  align-items: flex-start;
-  padding: 42px;
-}
-
 .product-profile {
-  width: min(100%, 670px);
-  min-height: 590px;
-  height: auto;
-  display: grid;
-  place-items: center;
-  align-self: flex-start;
+  width: 100%;
   transform: translateY(var(--profile-y));
   will-change: transform;
+}
+
+.product-profile img {
+  width: 100%;
+  max-height: calc(100svh - 242px);
+  display: block;
+  object-fit: contain;
 }
 
 /* Pay-to-play */
@@ -2287,7 +2308,7 @@ body.capture-mode .benefit-panel:last-child {
   }
 
   .profile-story-grid {
-    grid-template-columns: minmax(340px, .75fr) minmax(540px, 1.25fr);
+    grid-template-columns: minmax(320px, .72fr) minmax(560px, 1.28fr);
     gap: 48px;
   }
 }
@@ -2635,6 +2656,7 @@ body.capture-mode .benefit-panel:last-child {
     --second-y: 0px !important;
     --listing-opacity: 1 !important;
     --listing-scale: 1 !important;
+    --listing-cta-glow: 0 !important;
     --profile-opacity: 1 !important;
     --profile-y: 0px !important;
     --browser-scale: 1 !important;
@@ -2663,22 +2685,32 @@ body.capture-mode .benefit-panel:last-child {
     position: relative;
     left: auto;
     top: auto;
-    width: 100%;
+    width: min(74%, 360px);
     opacity: 1;
     transform: none;
+    margin-inline: auto;
     margin-bottom: 36px;
+  }
+
+  .product-listing img {
+    max-height: none;
   }
 
   .product-profile-wrap {
     position: relative;
     inset: auto;
     opacity: 1;
+    padding: 0;
     overflow: visible;
   }
 
   .product-profile {
     width: 100%;
     transform: none;
+  }
+
+  .product-profile img {
+    max-height: none;
   }
 
   .benefits-sticky {
