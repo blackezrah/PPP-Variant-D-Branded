@@ -409,13 +409,15 @@ a:focus-visible {
   line-height: 1.08;
 }
 
-.hero h1 span {
+.hero h1 span,
+.hero h1 strong {
   display: block;
   white-space: nowrap;
 }
 
-.hero h1 span:nth-child(2) {
-  margin-bottom: .18em;
+.hero h1 strong {
+  margin-top: .34em;
+  font-weight: 700;
 }
 
 .hero-resolution {
@@ -2228,13 +2230,15 @@ body.capture-mode .benefit-panel:last-child {
     font-size: clamp(38px, 7vw, 52px);
   }
 
-  .hero h1 span {
+  .hero h1 span,
+  .hero h1 strong {
     display: inline;
     white-space: normal;
   }
 
-  .hero h1 span:nth-child(2) {
-    margin-bottom: 0;
+  .hero h1 strong {
+    display: block;
+    margin-top: .28em;
   }
 
   .hero-search-stage {
