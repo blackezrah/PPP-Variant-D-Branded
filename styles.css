@@ -414,6 +414,10 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+.hero h1 span:nth-child(2) {
+  margin-bottom: .18em;
+}
+
 .hero-resolution {
   margin: 0;
   color: var(--coral);
@@ -2227,6 +2231,10 @@ body.capture-mode .benefit-panel:last-child {
   .hero h1 span {
     display: inline;
     white-space: normal;
+  }
+
+  .hero h1 span:nth-child(2) {
+    margin-bottom: 0;
   }
 
   .hero-search-stage {
