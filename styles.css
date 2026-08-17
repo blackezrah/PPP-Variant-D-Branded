@@ -415,6 +415,10 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+.hero h1 .hero-you {
+  display: block;
+}
+
 .hero h1 strong {
   margin-top: .34em;
   font-weight: 700;
