@@ -36,7 +36,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
         </a>
         <a class="member-button" href="https://sso.bestlawyers.com/account/login">Member Access</a>
-        <a class="header-cta" href="#activate">Activate your Enhanced Profile</a>
+        <a class="header-cta" href="https://sso.bestlawyers.com/account/login" data-activation-link><span class="cta-full">Activate your Enhanced Profile</span><span class="cta-short">Activate</span></a>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
       <a href="#enhanced-profile">Enhanced Profile</a>
       <a href="#benefits">Benefits</a>
       <a href="#results">Results</a>
-      <a href="#activate">Activate your Enhanced Profile</a>
+      <a href="https://sso.bestlawyers.com/account/login" data-activation-link>Activate your Enhanced Profile</a>
       <a href="https://sso.bestlawyers.com/account/login">Member Access</a>
     </nav>
   </header>
@@ -55,7 +55,7 @@
     <section class="hero" id="top" data-scroll-section>
       <div class="hero-grid container">
         <div class="hero-copy" data-reveal>
-          <h1>Every month, over 1.6 million people search for a lawyer like you. Most never see your name.</h1>
+          <h1><span>Every month, over 1.6 million people search for a lawyer like you.</span> <span>Most never see your name.</span></h1>
           <p class="hero-resolution"><em>Let’s change that.</em></p>
         </div>
 
@@ -79,8 +79,8 @@
             <div class="result-card result-card-ghost result-card-one"><span></span><i></i><i></i><i></i></div>
             <div class="result-card result-card-ghost result-card-two"><span></span><i></i><i></i><i></i></div>
             <div class="result-card result-card-ghost result-card-three"><span></span><i></i><i></i><i></i></div>
-            <div class="result-card result-card-image">
-              <img src="assets/free-listing.png" alt="">
+            <div class="result-card result-card-image product-asset-slot product-asset-slot-compact" aria-hidden="true">
+              <span>Individual free profile preview asset pending</span>
             </div>
           </div>
         </div>
@@ -115,10 +115,12 @@
         <h2>Instead, you’ve been given a free listing which looks like this:</h2>
         <figure class="free-listing-window">
           <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
-          <div class="free-listing-canvas">
+          <div class="free-listing-canvas product-asset-slot product-asset-slot-free" role="img" aria-label="Approved individual free lawyer profile screenshot pending">
             <div class="listing-echo listing-echo-one" aria-hidden="true"></div>
             <div class="listing-echo listing-echo-two" aria-hidden="true"></div>
-            <img src="assets/free-listing.png" alt="Example of a Best Lawyers free listing for Naifeh, Smith and Greer LLP">
+            <div class="product-asset-message">
+              <span>Approved individual free lawyer profile screenshot pending</span>
+            </div>
           </div>
         </figure>
       </div>
@@ -184,19 +186,19 @@
     <section class="comparison-track" id="compare" data-comparison-track data-scroll-section>
       <div class="comparison-sticky">
         <div class="container comparison-stage">
-          <h2>Free Listing vs Enhanced Listing</h2>
+          <h2>Free Listing vs Enhanced Profile</h2>
 
           <div class="comparison-frame">
             <article class="comparison-column comparison-free" data-comparison-free>
               <header><h3>Free Listing</h3></header>
               <ul>
-                <li class="yes">Firm name listed</li>
+                <li class="yes">Lawyer name listed</li>
                 <li class="yes">Award category labels shown</li>
                 <li class="no">No logo</li>
                 <li class="no">No bio</li>
                 <li class="no">No photo</li>
                 <li class="no">No website link</li>
-                <li class="no">No firm overview</li>
+                <li class="no">No expanded profile overview</li>
                 <li class="no">No practice areas or client comments shown</li>
                 <li class="no">Ranked last in search results</li>
                 <li class="no">Not found in AI searches</li>
@@ -206,15 +208,15 @@
             <div class="comparison-axis" aria-hidden="true"><span></span></div>
 
             <article class="comparison-column comparison-enhanced" data-comparison-enhanced>
-              <header><h3>Enhanced Listing</h3></header>
+              <header><h3>Enhanced Profile</h3></header>
               <ul>
                 <li class="yes">Everything in Free, plus:</li>
                 <li class="yes">Top placement in search results</li>
                 <li class="yes">Better SEO with backlink to your website</li>
                 <li class="yes">Bio</li>
                 <li class="yes">Photo</li>
-                <li class="yes">Firm logo displayed</li>
-                <li class="yes">Firm overview shown in preview</li>
+                <li class="yes">Profile image displayed</li>
+                <li class="yes">Profile overview shown in preview</li>
                 <li class="yes">Headquarters location listed</li>
                 <li class="yes">Award count shown (not just category labels)</li>
                 <li class="yes">Recognized practice areas and lawyers listed</li>
@@ -232,12 +234,12 @@
       <div class="profile-sticky">
         <div class="container profile-story-grid">
           <div class="profile-story-copy">
-            <h2>What an “Enhanced Profile Listing” looks like</h2>
+            <h2>What an “Enhanced Profile” looks like</h2>
             <p>With a few clicks of your mouse, you can upgrade your profile for maximum visibility and reach. You can finally have a Best Lawyers profile that’s worthy of your title, and <strong>built to get more engagement not only in our system… but in the biggest search algorithms on the planet.</strong></p>
             <p class="example-label">Here’s an example:</p>
             <div class="profile-story-second" data-profile-second>
               <p>When one of those 1.6 million potential clients click on your profile, it opens your whole exhibit — practice areas, biography, client testimonials, case history, <strong>everything a client needs to say “This firm seems great, I should book a call!”</strong></p>
-              <a class="button button-outline" href="#activate">Claim Your Enhanced Profile <span aria-hidden="true">→</span></a>
+              <a class="button button-outline" href="https://sso.bestlawyers.com/account/login" data-activation-link>Claim Your Enhanced Profile <span aria-hidden="true">→</span></a>
             </div>
           </div>
 
@@ -247,9 +249,17 @@
                 <span></span><span></span><span></span><i></i>
               </div>
               <div class="product-browser-viewport">
-                <img class="product-listing" src="assets/enhanced-listing.png" alt="Example of an enhanced Best Lawyers listing for Naifeh, Smith and Greer LLP" data-product-listing>
-                <div class="product-profile-wrap" data-product-profile-wrap>
-                  <img class="product-profile" src="assets/enhanced-profile.png" alt="Example of a complete enhanced Best Lawyers lawyer profile" data-product-profile>
+                <div class="product-listing product-asset-slot product-asset-slot-enhanced" data-product-listing role="img" aria-label="Approved individual Enhanced Profile preview asset pending">
+                  <div class="product-asset-message">
+                    <span>Approved individual Enhanced Profile preview asset pending</span>
+                  </div>
+                </div>
+                <div class="product-profile-wrap product-asset-slot product-asset-slot-profile" data-product-profile-wrap role="img" aria-label="Approved full individual lawyer profile screenshot pending">
+                  <div class="product-profile" data-product-profile>
+                    <div class="product-asset-message">
+                      <span>Approved full individual lawyer profile screenshot pending</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -274,7 +284,7 @@
         </div>
       </div>
       <div class="container pay-conclusion" data-reveal>
-        <p>Our Enhanced Profile Listing gives you a more unique, targeted distribution channel for your firm.</p>
+        <p>Our Enhanced Profile gives you a more unique, targeted distribution channel for your firm.</p>
       </div>
     </section>
 
@@ -299,17 +309,17 @@
 
           <article class="benefit-panel benefit-gold">
             <h3>Improved SEO</h3>
-            <p>With your Enhanced Profile Listing, you get an SEO backlink to your website. Google and AI searches like that. Because, we’ve been around for 45 years (rated by Corporate Counsel Magazine as the most respected referral list of attorneys in practice). So when we add your link to our website, it means real “SEO Juice”. It tells Google and AI: You’re trusted and should be ranked.</p>
+            <p>With your Enhanced Profile, you get an SEO backlink to your website. Google and AI searches like that. Because, we’ve been around for 45 years (rated by Corporate Counsel Magazine as the most respected referral list of attorneys in practice). So when we add your link to our website, it means real “SEO Juice”. It tells Google and AI: You’re trusted and should be ranked.</p>
           </article>
 
           <article class="benefit-panel benefit-white">
             <h3>20x More Engagement</h3>
-            <p>We can’t quite put our finger on it or tell you exactly why… But our analysis has shown that our platform gets 20 times more engagement from clients compared to other sources. Clients who are clicking through, going to attorney websites, and making quick calls and appointments. Perhaps it’s the high intent. Or our high recognition. Either way, our lawyer clients with an Enhanced Profile Listing are pleased with the results.</p>
+            <p>We can’t quite put our finger on it or tell you exactly why… But our analysis has shown that our platform gets 20 times more engagement from clients compared to other sources. Clients who are clicking through, going to attorney websites, and making quick calls and appointments. Perhaps it’s the high intent. Or our high recognition. Either way, our lawyer clients with an Enhanced Profile are pleased with the results.</p>
           </article>
 
           <article class="benefit-panel benefit-coral">
             <h3>1.6M High Intent clients searching every month (and growing)</h3>
-            <p>When you spend money in other marketing mediums, you might have to invest a large amount of capital if you want to get any real results. But those types of leads aren’t always considered “high intent”. Rather, sometimes, “casual browsers.” People come to our site because they’re looking to hire a lawyer right now. Currently, at the time of this writing, we’re at 1.6 million visitors. With an Enhanced Profile Listing your new profile shows up at the top of our searches and gets you in front of even more potential clients every month.</p>
+            <p>When you spend money in other marketing mediums, you might have to invest a large amount of capital if you want to get any real results. But those types of leads aren’t always considered “high intent”. Rather, sometimes, “casual browsers.” People come to our site because they’re looking to hire a lawyer right now. Currently, at the time of this writing, we’re at 1.6 million visitors. With an Enhanced Profile your new profile shows up at the top of our searches and gets you in front of even more potential clients every month.</p>
           </article>
 
           <article class="benefit-panel benefit-navy">
@@ -400,7 +410,7 @@
           <h2>What to do now</h2>
           <p>If you’re ready to see what an Enhanced Profile can do for your firm and tap into a whole new level of visibility and engagement, then upgrade today:</p>
         </div>
-        <a class="button button-coral" href="#activate">Activate your Enhanced Profile</a>
+        <a class="button button-coral" href="https://sso.bestlawyers.com/account/login" data-activation-link>Activate your Enhanced Profile</a>
       </div>
     </section>
   </main>

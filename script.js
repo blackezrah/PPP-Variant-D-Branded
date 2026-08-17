@@ -5,6 +5,7 @@ document.documentElement.classList.add("js");
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const lerp = (start, end, progress) => start + (end - start) * progress;
+  const ACTIVATION_URL = "https://sso.bestlawyers.com/account/login";
   const easeOutCubic = (value) => 1 - Math.pow(1 - clamp(value), 3);
   const easeInOutCubic = (value) => {
     const t = clamp(value);
@@ -281,7 +282,8 @@ document.documentElement.classList.add("js");
     testimonialPrev?.addEventListener("click", () => moveTestimonials(-1));
     testimonialNext?.addEventListener("click", () => moveTestimonials(1));
 
-    document.querySelectorAll('a[href="#activate"]').forEach((link) => {
+    document.querySelectorAll("[data-activation-link]").forEach((link) => {
+      link.href = ACTIVATION_URL;
       link.addEventListener("click", () => {
         window.dispatchEvent(
           new CustomEvent("blpe:cta", {
