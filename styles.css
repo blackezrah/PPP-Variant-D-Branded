@@ -1467,6 +1467,7 @@ a:focus-visible {
 
 .pay-question h2 {
   --pay-headline-clip: 100%;
+  --pay-headline-feather: 14%;
   position: relative;
   margin-bottom: 30px;
   font-size: clamp(42px, 3.75vw, 66px);
@@ -1483,6 +1484,18 @@ a:focus-visible {
   display: block;
   color: var(--coral);
   clip-path: inset(0 0 var(--pay-headline-clip) 0);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(100% - var(--pay-headline-clip) - var(--pay-headline-feather)),
+    transparent calc(100% - var(--pay-headline-clip))
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(100% - var(--pay-headline-clip) - var(--pay-headline-feather)),
+    transparent calc(100% - var(--pay-headline-clip))
+  );
   pointer-events: none;
 }
 

@@ -231,7 +231,9 @@ document.documentElement.classList.add("js");
       if (!paySection || !payHeadline || captureMode) return;
       const progress = progressFor(metrics.pay);
       const bottomInset = lerp(100, 0, progress);
+      const feather = 14 * (1 - range(progress, 0.86, 1));
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
+      setProperty(payHeadline, "--pay-headline-feather", `${feather.toFixed(2)}%`);
     }
 
     function updateHeroParallax() {
@@ -273,6 +275,7 @@ document.documentElement.classList.add("js");
 
       if (prefersReducedMotion.matches || captureMode) {
         setProperty(payHeadline, "--pay-headline-clip", "100%");
+        setProperty(payHeadline, "--pay-headline-feather", "14%");
         return;
       }
       updateHeroParallax();
