@@ -233,12 +233,8 @@ document.documentElement.classList.add("js");
       if (!paySection || !payHeadline || captureMode) return;
       const progress = progressFor(metrics.pay);
       const reveal = lerp(0, 100, progress);
-      const feather = 34 * range(progress, 0.04, 0.16) * (1 - range(progress, 0.82, 1));
-      const solid = Math.max(0, reveal - feather);
       const bottomInset = 100 - reveal;
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
-      setProperty(payHeadline, "--pay-headline-reveal", `${reveal.toFixed(2)}%`);
-      setProperty(payHeadline, "--pay-headline-solid", `${solid.toFixed(2)}%`);
     }
 
     function updateHeroParallax() {
@@ -280,8 +276,6 @@ document.documentElement.classList.add("js");
 
       if (prefersReducedMotion.matches || captureMode) {
         setProperty(payHeadline, "--pay-headline-clip", "100%");
-        setProperty(payHeadline, "--pay-headline-reveal", "0%");
-        setProperty(payHeadline, "--pay-headline-solid", "0%");
         return;
       }
       updateHeroParallax();
