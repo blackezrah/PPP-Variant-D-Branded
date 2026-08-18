@@ -48,7 +48,7 @@ document.documentElement.classList.add("js");
     mobileNavigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
     const revealTargets = document.querySelectorAll(
-      "[data-reveal], [data-reveal-left], [data-reveal-right], [data-line-reveal]"
+      "[data-reveal], [data-reveal-left], [data-reveal-right], [data-line-reveal], .hero-metrics-wrap"
     );
 
     if (prefersReducedMotion.matches || captureMode || !("IntersectionObserver" in window)) {
@@ -84,6 +84,7 @@ document.documentElement.classList.add("js");
     const benefitsRail = document.querySelector("[data-benefits-rail]");
     const benefitsSticky = benefitsTrack?.querySelector(".benefits-sticky");
     const finalCta = document.querySelector("[data-final-cta]");
+    const hero = document.querySelector("[data-hero]");
     const heroStage = document.querySelector("[data-hero-stage]");
     const navLinks = [...document.querySelectorAll("[data-nav-link]")];
 
@@ -124,13 +125,17 @@ document.documentElement.classList.add("js");
       const payRevealEnd = window.innerWidth <= 820 ? 0.38 : 0.8;
 
       metrics = {
+        hero: {
+          top: 0,
+          distance: Math.max(1, (hero?.offsetHeight || window.innerHeight) - getHeaderHeight())
+        },
         counterflow: getScrollMetrics(counterflowTrack),
         instant: getScrollMetrics(instantTrack),
         comparison: getScrollMetrics(comparisonTrack),
         profile: getScrollMetrics(profileStory),
         pay: getOffsetScrollMetrics(payRevealTarget, 0.7, payRevealEnd),
         benefits: getScrollMetrics(benefitsTrack),
-        finalCta: getOffsetScrollMetrics(finalCta, 0.82, 0.28)
+        finalCta: getScrollMetrics(finalCta)
       };
 
       if (benefitsTrack && benefitsRail && benefitsSticky && window.innerWidth > 820 && !captureMode) {
@@ -239,36 +244,65 @@ document.documentElement.classList.add("js");
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
     }
 
+    function updateHero() {
+      if (!hero || prefersReducedMotion.matches || captureMode) return;
+      const progress = progressFor(metrics.hero);
+      const earlyExit = easeInOutCubic(range(progress, 0.2, 0.46));
+      const finalHold = easeInOutCubic(range(progress, 0.38, 0.58));
+      const resolutionExit = easeInOutCubic(range(progress, 0.48, 0.68));
+      const resultClear = easeInOutCubic(range(progress, 0.34, 0.64));
+      const searchExit = easeInOutCubic(range(progress, 0.22, 0.72));
+      const mobile = window.innerWidth <= 820;
+
+      setProperty(hero, "--hero-copy-y", `${lerp(0, mobile ? -14 : -15, earlyExit).toFixed(2)}px`);
+      setProperty(hero, "--hero-copy-opacity", lerp(1, 0.18, easeInOutCubic(range(progress, 0.58, 0.86))).toFixed(3));
+      setProperty(hero, "--hero-search-y", `${lerp(0, mobile ? -16 : -50, searchExit).toFixed(2)}px`);
+      setProperty(hero, "--hero-search-opacity", lerp(1, 0, easeInOutCubic(range(progress, 0.5, 0.82))).toFixed(3));
+      setProperty(hero, "--hero-search-scale", lerp(1, mobile ? 0.995 : 0.985, searchExit).toFixed(4));
+      setProperty(hero, "--hero-early-opacity", lerp(1, 0, earlyExit).toFixed(3));
+      setProperty(hero, "--hero-final-opacity", lerp(1, 0, finalHold).toFixed(3));
+      setProperty(hero, "--hero-final-y", `${lerp(0, -18, finalHold).toFixed(2)}px`);
+      setProperty(hero, "--hero-resolution-opacity", lerp(1, 0, resolutionExit).toFixed(3));
+      setProperty(hero, "--hero-resolution-y", `${lerp(0, -26, resolutionExit).toFixed(2)}px`);
+
+      if (heroStage) {
+        setProperty(heroStage, "--hero-results-x", `${lerp(0, mobile ? 0 : -18, resultClear).toFixed(2)}px`);
+        setProperty(heroStage, "--hero-results-y", `${lerp(0, mobile ? 18 : 30, resultClear).toFixed(2)}px`);
+        setProperty(heroStage, "--hero-results-opacity", lerp(1, 0, easeInOutCubic(range(progress, 0.42, 0.68))).toFixed(3));
+        setProperty(heroStage, "--hero-results-scale", lerp(1, 0.985, resultClear).toFixed(4));
+      }
+    }
+
     function updateFinalCta() {
       if (!finalCta || captureMode) return;
       const progress = progressFor(metrics.finalCta);
-      const kicker = easeOutCubic(range(progress, 0.02, 0.18));
-      const lineOne = easeOutCubic(range(progress, 0.12, 0.34));
-      const lineTwo = easeOutCubic(range(progress, 0.28, 0.52));
-      const rule = easeInOutCubic(range(progress, 0.42, 0.64));
-      const copy = easeOutCubic(range(progress, 0.56, 0.78));
-      const button = easeOutCubic(range(progress, 0.72, 0.94));
+      const descend = easeInOutCubic(range(progress, 0, 0.25));
+      const release = easeInOutCubic(range(progress, 0.88, 1));
+      const headlineY = lerp(-window.innerHeight * 0.32, 0, descend) + lerp(0, window.innerHeight * 0.62, release);
+      const eyebrow = easeOutCubic(range(progress, 0.14, 0.25)) * (1 - range(progress, 0.9, 1));
+      const argumentIn = easeOutCubic(range(progress, 0.3, 0.52));
+      const argumentOut = easeInOutCubic(range(progress, 0.56, 0.68));
+      const argumentOpacity = argumentIn * (1 - argumentOut);
+      const mobile = window.innerWidth <= 820;
+      const argumentX = argumentOut > 0
+        ? lerp(0, mobile ? -42 : -window.innerWidth * 0.16, argumentOut)
+        : lerp(mobile ? 42 : window.innerWidth * 0.18, 0, argumentIn);
+      const actionIn = easeOutCubic(range(progress, 0.6, 0.76));
+      const actionOut = easeInOutCubic(range(progress, 0.88, 1));
+      const rule = easeInOutCubic(range(progress, 0.25, 0.34)) * (1 - range(progress, 0.9, 1));
 
-      setProperty(finalCta, "--final-kicker-opacity", kicker.toFixed(3));
-      setProperty(finalCta, "--final-kicker-y", `${lerp(22, 0, kicker).toFixed(2)}px`);
-      setProperty(finalCta, "--final-line-one-opacity", lineOne.toFixed(3));
-      setProperty(finalCta, "--final-line-one-y", `${lerp(34, 0, lineOne).toFixed(2)}px`);
-      setProperty(finalCta, "--final-line-two-opacity", lineTwo.toFixed(3));
-      setProperty(finalCta, "--final-line-two-y", `${lerp(42, 0, lineTwo).toFixed(2)}px`);
+      setProperty(finalCta, "--final-headline-y", `${headlineY.toFixed(2)}px`);
+      setProperty(finalCta, "--final-headline-opacity", lerp(1, 0, range(progress, 0.96, 1)).toFixed(3));
+      setProperty(finalCta, "--final-eyebrow-opacity", eyebrow.toFixed(3));
+      setProperty(finalCta, "--final-eyebrow-x", `${lerp(mobile ? -18 : -34, 0, eyebrow).toFixed(2)}px`);
       setProperty(finalCta, "--final-rule-scale", rule.toFixed(3));
-      setProperty(finalCta, "--final-copy-opacity", copy.toFixed(3));
-      setProperty(finalCta, "--final-copy-y", `${lerp(28, 0, copy).toFixed(2)}px`);
-      setProperty(finalCta, "--final-button-opacity", button.toFixed(3));
-      setProperty(finalCta, "--final-button-y", `${lerp(26, 0, button).toFixed(2)}px`);
-    }
-
-    function updateHeroParallax() {
-      if (!heroStage || prefersReducedMotion.matches || captureMode) return;
-      const hero = document.querySelector(".hero");
-      if (!hero) return;
-      const rect = hero.getBoundingClientRect();
-      const progress = clamp(-rect.top / Math.max(1, rect.height));
-      heroStage.style.transform = `translate3d(0, ${progress * 34}px, 0)`;
+      setProperty(finalCta, "--final-argument-opacity", argumentOpacity.toFixed(3));
+      setProperty(finalCta, "--final-argument-x", `${argumentX.toFixed(2)}px`);
+      setProperty(finalCta, "--final-argument-y", `${lerp(30, -8, argumentIn).toFixed(2)}px`);
+      setProperty(finalCta, "--final-action-opacity", (actionIn * (1 - actionOut)).toFixed(3));
+      setProperty(finalCta, "--final-action-y", `${(lerp(window.innerHeight * 0.14, 0, actionIn) + lerp(0, window.innerHeight * 0.52, actionOut)).toFixed(2)}px`);
+      setProperty(finalCta, "--final-note-opacity", (easeOutCubic(range(progress, 0.66, 0.8)) * (1 - actionOut)).toFixed(3));
+      setProperty(finalCta, "--final-note-y", `${(lerp(18, 0, easeOutCubic(range(progress, 0.66, 0.8))) + lerp(0, window.innerHeight * 0.48, actionOut)).toFixed(2)}px`);
     }
 
     function updatePageProgress() {
@@ -301,22 +335,35 @@ document.documentElement.classList.add("js");
 
       if (prefersReducedMotion.matches || captureMode) {
         setProperty(payHeadline, "--pay-headline-clip", "100%");
+        if (hero) {
+          setProperty(hero, "--hero-copy-y", "0px");
+          setProperty(hero, "--hero-copy-opacity", "1");
+          setProperty(hero, "--hero-search-y", "0px");
+          setProperty(hero, "--hero-search-opacity", "1");
+          setProperty(hero, "--hero-search-scale", "1");
+          setProperty(hero, "--hero-early-opacity", "1");
+          setProperty(hero, "--hero-final-opacity", "1");
+          setProperty(hero, "--hero-final-y", "0px");
+          setProperty(hero, "--hero-resolution-opacity", "1");
+          setProperty(hero, "--hero-resolution-y", "0px");
+        }
         if (finalCta) {
-          setProperty(finalCta, "--final-kicker-opacity", "1");
-          setProperty(finalCta, "--final-kicker-y", "0px");
-          setProperty(finalCta, "--final-line-one-opacity", "1");
-          setProperty(finalCta, "--final-line-one-y", "0px");
-          setProperty(finalCta, "--final-line-two-opacity", "1");
-          setProperty(finalCta, "--final-line-two-y", "0px");
+          setProperty(finalCta, "--final-headline-y", "0px");
+          setProperty(finalCta, "--final-headline-opacity", "1");
+          setProperty(finalCta, "--final-eyebrow-opacity", "1");
+          setProperty(finalCta, "--final-eyebrow-x", "0px");
           setProperty(finalCta, "--final-rule-scale", "1");
-          setProperty(finalCta, "--final-copy-opacity", "1");
-          setProperty(finalCta, "--final-copy-y", "0px");
-          setProperty(finalCta, "--final-button-opacity", "1");
-          setProperty(finalCta, "--final-button-y", "0px");
+          setProperty(finalCta, "--final-argument-opacity", "0");
+          setProperty(finalCta, "--final-argument-x", "0px");
+          setProperty(finalCta, "--final-argument-y", "0px");
+          setProperty(finalCta, "--final-action-opacity", "1");
+          setProperty(finalCta, "--final-action-y", "0px");
+          setProperty(finalCta, "--final-note-opacity", "1");
+          setProperty(finalCta, "--final-note-y", "0px");
         }
         return;
       }
-      updateHeroParallax();
+      updateHero();
       updateCounterflow();
       updateInstant();
       updateComparison();

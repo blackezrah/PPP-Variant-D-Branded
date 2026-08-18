@@ -52,16 +52,32 @@
   </header>
 
   <main id="main-content">
-    <section class="hero" id="top" data-scroll-section>
+    <section class="hero" id="top" data-scroll-section data-hero>
       <div class="hero-grid container">
-        <div class="hero-copy" data-reveal>
-          <h1><span>Every month, over 1.6 million</span> <span>people search for a lawyer like</span> <span class="hero-you">you.</span> <strong>Most never see your name.</strong></h1>
-          <p class="hero-resolution"><em>Let’s change that.</em></p>
+        <div class="hero-copy" data-hero-copy>
+          <h1>
+            <span class="hero-phrase-mask hero-phrase-one"><span>Every month, over</span></span>
+            <span class="hero-phrase-mask hero-phrase-two"><span><em>1.6 million people</em></span></span>
+            <span class="hero-phrase-mask hero-phrase-three"><span>search for a<br>lawyer like you.</span></span>
+            <span class="hero-phrase-mask hero-phrase-four"><strong>Most never see<br>your name.</strong></span>
+          </h1>
+          <p class="hero-resolution"><span aria-hidden="true"></span><em>Let’s change that.</em></p>
         </div>
 
-        <div class="hero-search-stage" data-hero-stage data-reveal-right aria-label="Best Lawyers search experience">
+        <div class="hero-search-stage" data-hero-stage aria-label="Best Lawyers search experience">
           <div class="hero-search-shell">
-            <img src="assets/bl-find-a-lawyer.png" alt="Best Lawyers Find a Lawyer search form">
+            <div class="hero-search-form" aria-hidden="true">
+              <div class="hero-query-row hero-query-primary">
+                <span class="hero-query-mask"><span>Best personal injury lawyer in New York</span></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
+              </div>
+              <div class="hero-query-row"><span class="hero-query-mask"><span>United States</span></span><i></i></div>
+              <div class="hero-query-row"><span class="hero-query-mask"><span>New York, NY</span></span><i></i></div>
+              <button class="hero-search-button" type="button" tabindex="-1">
+                <span>Search</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
+              </button>
+            </div>
           </div>
 
           <div class="hero-result-stack" aria-hidden="true">
@@ -71,7 +87,7 @@
             </div>
 
             <div class="result-card-rail">
-              <article class="result-card result-card-lawyer result-card-featured">
+              <article class="result-card result-card-lawyer result-card-featured" style="--card-index: 0">
                 <div class="result-avatar">J</div>
                 <h3>Jordan Ellis</h3>
                 <p class="result-firm">Ellis & Rowe LLP</p>
@@ -83,7 +99,7 @@
                 <div class="result-actions"><span>View Profile</span><span>212.555.0184</span></div>
               </article>
 
-              <article class="result-card result-card-lawyer">
+              <article class="result-card result-card-lawyer" style="--card-index: 1">
                 <div class="result-avatar">A</div>
                 <h3>Avery Morgan</h3>
                 <p class="result-firm">Morgan Trial Group</p>
@@ -95,7 +111,7 @@
                 <div class="result-actions"><span>View Profile</span><span>718.555.0142</span></div>
               </article>
 
-              <article class="result-card result-card-firm">
+              <article class="result-card result-card-firm" style="--card-index: 2">
                 <span class="result-badge">BEST LAWYERS</span>
                 <p>Best Lawyers</p>
                 <small>Firm</small>
@@ -105,7 +121,7 @@
                 <p>9 Best Lawyers awards</p>
               </article>
 
-              <article class="result-card result-card-inactive">
+              <article class="result-card result-card-inactive" style="--card-index: 3">
                 <h3>Riley Stone</h3>
                 <p>Stone Legal</p>
                 <small>New York, NY</small>
@@ -113,7 +129,7 @@
                 <strong>Unactivated Profile</strong>
               </article>
 
-              <article class="result-card result-card-inactive result-card-dark">
+              <article class="result-card result-card-inactive result-card-dark" style="--card-index: 4">
                 <h3>Lane & Porter LLP</h3>
                 <div class="result-rule"></div>
                 <small>New York, NY</small>
@@ -127,10 +143,10 @@
 
       <div class="hero-metrics-wrap">
         <div class="container hero-metrics" aria-label="Figures from the approved copy">
-          <div class="hero-metric"><strong>over 1.6 million</strong><span>people search for a lawyer like you</span></div>
-          <div class="hero-metric"><strong>top 5%</strong><span>of lawyers</span></div>
-          <div class="hero-metric"><strong>over 45 years</strong><span>of doing this</span></div>
-          <div class="hero-metric"><strong>less than 1%</strong><span>of potential clients ever click past page 2</span></div>
+          <div class="hero-metric" style="--metric-index: 0"><strong>over 1.6 million</strong><span>people search for a lawyer like you</span></div>
+          <div class="hero-metric" style="--metric-index: 1"><strong>top 5%</strong><span>of lawyers</span></div>
+          <div class="hero-metric" style="--metric-index: 2"><strong>over 45 years</strong><span>of doing this</span></div>
+          <div class="hero-metric" style="--metric-index: 3"><strong>less than 1%</strong><span>of potential clients ever click past page 2</span></div>
         </div>
       </div>
     </section>
@@ -435,19 +451,24 @@
     </section>
 
     <section class="final-cta" id="activate" data-scroll-section data-final-cta>
-      <div class="container final-cta-grid">
-        <div class="final-cta-copy">
-          <p class="final-cta-eyebrow">You’ve earned the recognition.</p>
-          <h2>
-            <span class="final-cta-line final-cta-line-one">Now make sure</span>
-            <span class="final-cta-line final-cta-line-two">they find you.</span>
-          </h2>
-        </div>
-        <div class="final-cta-action">
-          <span class="final-cta-rule" aria-hidden="true"></span>
-          <p>More than 1.6 million people search Best Lawyers each month. An Enhanced Profile gives them more to see, more to trust, and more reason to choose you.</p>
-          <a class="button button-coral" href="https://sso.bestlawyers.com/account/login" data-activation-link>Activate your Enhanced Profile</a>
-          <p class="final-cta-note">Built to help prospective clients see more, trust more, and reach out faster.</p>
+      <div class="final-cta-sticky">
+        <div class="container final-cta-stage">
+          <div class="final-cta-copy">
+            <p class="final-cta-eyebrow">You’ve earned the recognition.</p>
+            <h2>
+              <span class="final-cta-line final-cta-line-one">Now make sure</span>
+              <span class="final-cta-line final-cta-line-two">they find you.</span>
+            </h2>
+          </div>
+          <div class="final-cta-argument">
+            <p class="final-argument-statement">More than 1.6 million people search Best Lawyers each month.</p>
+            <p class="final-argument-more">An Enhanced Profile gives them <span>more to see,</span> <span>more to trust,</span> and <span>more reason to choose you.</span></p>
+          </div>
+          <div class="final-cta-action">
+            <span class="final-cta-rule" aria-hidden="true"></span>
+            <a class="button button-coral" href="https://sso.bestlawyers.com/account/login" data-activation-link>Activate your Enhanced Profile</a>
+            <p class="final-cta-note">Built to help prospective clients see more, trust more, and reach out faster.</p>
+          </div>
         </div>
       </div>
     </section>
