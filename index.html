@@ -65,88 +65,91 @@
         </div>
 
         <div class="hero-search-stage" data-hero-stage aria-label="Best Lawyers search experience">
-          <div class="hero-search-shell">
-            <div class="hero-search-form" aria-hidden="true">
-              <div class="hero-query-row hero-query-primary">
-                <span class="hero-query-mask"><span>Best personal injury lawyer in New York</span></span>
+          <div class="hero-search-shell" data-search-demo>
+            <form class="hero-demo-form" aria-label="Demonstration search form">
+              <div class="hero-demo-query" aria-hidden="true">
+                <span>Search for Lawyer or Firm by Name or Legal Issue</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
               </div>
-              <div class="hero-query-row"><span class="hero-query-mask"><span>United States</span></span><i></i></div>
-              <div class="hero-query-row"><span class="hero-query-mask"><span>New York, NY</span></span><i></i></div>
-              <button class="hero-search-button" type="button" tabindex="-1">
-                <span>Search</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.25 4.25"></path></svg>
-              </button>
-            </div>
+
+              <div class="hero-demo-field" data-demo-field="country">
+                <button type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-demo-value>Select country</span><i aria-hidden="true"></i>
+                </button>
+                <div class="hero-demo-menu" role="listbox" aria-label="Country options">
+                  <button type="button" role="option" data-demo-option>United States</button>
+                </div>
+              </div>
+
+              <div class="hero-demo-field" data-demo-field="state">
+                <button type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-demo-value>Select state</span><i aria-hidden="true"></i>
+                </button>
+                <div class="hero-demo-menu" role="listbox" aria-label="State options">
+                  <button type="button" role="option" data-demo-option>New York</button>
+                </div>
+              </div>
+
+              <div class="hero-demo-field" data-demo-field="city">
+                <button type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-demo-value>Select city</span><i aria-hidden="true"></i>
+                </button>
+                <div class="hero-demo-menu" role="listbox" aria-label="City options">
+                  <button type="button" role="option" data-demo-option>New York</button>
+                </div>
+              </div>
+
+              <div class="hero-demo-field" data-demo-field="practice">
+                <button type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-demo-value>Select practice area</span><i aria-hidden="true"></i>
+                </button>
+                <div class="hero-demo-menu" role="listbox" aria-label="Practice area options">
+                  <button type="button" role="option" data-demo-option>Personal Injury Litigation - Plaintiffs</button>
+                </div>
+              </div>
+
+              <button class="hero-demo-submit" type="button" data-demo-submit>Search</button>
+
+              <div class="hero-demo-refine" aria-label="Refine your search">
+                <p>Refine Your Search</p>
+                <label class="hero-demo-check" data-demo-check="lawyers">
+                  <input type="checkbox">
+                  <span aria-hidden="true"></span>
+                  Lawyers <small aria-hidden="true">ⓘ</small>
+                </label>
+                <label class="hero-demo-check" data-demo-check="firms">
+                  <input type="checkbox">
+                  <span aria-hidden="true"></span>
+                  Firms
+                </label>
+                <label class="hero-demo-check hero-demo-check-muted">
+                  <input type="checkbox">
+                  <span aria-hidden="true"></span>
+                  Lawyer of the Year <small aria-hidden="true">ⓘ</small>
+                </label>
+                <label class="hero-demo-check hero-demo-check-muted">
+                  <input type="checkbox">
+                  <span aria-hidden="true"></span>
+                  Ones to Watch <small aria-hidden="true">ⓘ</small>
+                </label>
+              </div>
+            </form>
           </div>
 
-          <div class="hero-result-stack" aria-hidden="true">
-            <div class="result-toolbar">
-              <span>15 Results</span>
-              <span>Sort By: <b>A to Z</b></span>
-            </div>
-
-            <div class="result-card-rail">
-              <article class="result-card result-card-lawyer result-card-featured" style="--card-index: 0">
-                <div class="result-avatar">J</div>
-                <h3>Jordan Ellis</h3>
-                <p class="result-firm">Ellis & Rowe LLP</p>
-                <p class="result-location">New York, NY</p>
-                <div class="result-rule"></div>
-                <p class="result-label">Practice Areas</p>
-                <p>Personal Injury Litigation<br>Medical Malpractice Law<br>Product Liability Litigation</p>
-                <p class="result-recognition">Recognized since 2019 by <strong>Best Lawyers</strong></p>
-                <div class="result-actions"><span>View Profile</span><span>212.555.0184</span></div>
-              </article>
-
-              <article class="result-card result-card-lawyer" style="--card-index: 1">
-                <div class="result-avatar">A</div>
-                <h3>Avery Morgan</h3>
-                <p class="result-firm">Morgan Trial Group</p>
-                <p class="result-location">Brooklyn, NY</p>
-                <div class="result-rule result-rule-blue"></div>
-                <p class="result-label">Practice Areas</p>
-                <p>Personal Injury Litigation<br>Civil Rights Law<br>Commercial Litigation</p>
-                <p class="result-recognition">Recognized since 2021 by <strong>Best Lawyers</strong></p>
-                <div class="result-actions"><span>View Profile</span><span>718.555.0142</span></div>
-              </article>
-
-              <article class="result-card result-card-firm" style="--card-index: 2">
-                <span class="result-badge">BEST LAWYERS</span>
-                <p>Best Lawyers</p>
-                <small>Firm</small>
-                <h3>Harrison Vale PLLC</h3>
-                <div class="result-rule"></div>
-                <strong>New York, NY</strong>
-                <p>9 Best Lawyers awards</p>
-              </article>
-
-              <article class="result-card result-card-inactive" style="--card-index: 3">
-                <h3>Riley Stone</h3>
-                <p>Stone Legal</p>
-                <small>New York, NY</small>
-                <div class="result-lock"></div>
-                <strong>Unactivated Profile</strong>
-              </article>
-
-              <article class="result-card result-card-inactive result-card-dark" style="--card-index: 4">
-                <h3>Lane & Porter LLP</h3>
-                <div class="result-rule"></div>
-                <small>New York, NY</small>
-                <div class="result-lock"></div>
-                <strong>Unactivated Profile</strong>
-              </article>
-            </div>
+          <div class="hero-result-stack" aria-hidden="true" data-demo-results>
+            <figure class="prototype-results-card">
+              <img src="assets/bl-search-results.png" alt="">
+            </figure>
           </div>
         </div>
       </div>
 
       <div class="hero-metrics-wrap">
         <div class="container hero-metrics" aria-label="Figures from the approved copy">
-          <div class="hero-metric" style="--metric-index: 0"><strong>over 1.6 million</strong><span>people search for a lawyer like you</span></div>
-          <div class="hero-metric" style="--metric-index: 1"><strong>top 5%</strong><span>of lawyers</span></div>
-          <div class="hero-metric" style="--metric-index: 2"><strong>over 45 years</strong><span>of doing this</span></div>
-          <div class="hero-metric" style="--metric-index: 3"><strong>less than 1%</strong><span>of potential clients ever click past page 2</span></div>
+          <div class="hero-metric" style="--metric-index: 0"><strong>over <span data-count-up data-count-to="1.6" data-count-decimals="1">0</span> million</strong><span>people search for a lawyer like you</span></div>
+          <div class="hero-metric" style="--metric-index: 1"><strong>top <span data-count-up data-count-to="5">0</span>%</strong><span>of lawyers</span></div>
+          <div class="hero-metric" style="--metric-index: 2"><strong>over <span data-count-up data-count-to="45">0</span> years</strong><span>of doing this</span></div>
+          <div class="hero-metric" style="--metric-index: 3"><strong>less than <span data-count-up data-count-to="1">0</span>%</strong><span>of potential clients ever click past page 2</span></div>
         </div>
       </div>
     </section>
@@ -166,13 +169,19 @@
         </div>
       </div>
 
-      <div class="container free-listing-intro" data-reveal>
-        <h2>Instead, you’ve been given a free listing which looks like this:</h2>
-        <figure class="free-listing-window">
-          <div class="free-listing-canvas">
-            <img src="assets/free-lawyer-profile.png" alt="Example free Best Lawyers profile for fictional lawyer Avery J. Caldwell">
+      <div class="free-listing-intro" data-free-listing-scene>
+        <div class="free-listing-sticky">
+          <div class="container free-listing-stage">
+            <h2>Instead, you’ve been given a free listing which looks like this:</h2>
+            <figure class="free-listing-window" aria-label="Animated free listing profile assembled from separate interface pieces">
+              <div class="free-profile-assembly">
+                <img class="free-profile-header" src="assets/free-listing -header.png" alt="Free listing profile header for Avery J. Caldwell">
+                <img class="free-profile-body" src="assets/free-listing-body.png" alt="Free listing profile information panel">
+                <img class="free-profile-card" src="assets/free-listing-notification.png" alt="Manage This Profile activation card">
+              </div>
+            </figure>
           </div>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -204,15 +213,19 @@
 
           <div class="instant-visual" aria-hidden="true">
             <div class="page-stack">
-              <div class="page-card page-card-back"></div>
-              <div class="page-card page-card-mid"></div>
-              <div class="page-card page-card-front">
-                <div class="page-card-top"><span></span><i></i></div>
-                <div class="page-row"><b></b><span></span></div>
-                <div class="page-row"><b></b><span></span></div>
-                <div class="page-row"><b></b><span></span></div>
-                <div class="page-row page-row-muted"><b></b><span></span></div>
-                <div class="page-pagination"><span></span><span></span><span></span></div>
+              <div class="visibility-orbit visibility-orbit-one"></div>
+              <div class="visibility-orbit visibility-orbit-two"></div>
+              <div class="visibility-card visibility-card-back">
+                <img src="assets/free-listing.png" alt="">
+              </div>
+              <div class="visibility-card visibility-card-mid">
+                <div class="visibility-browser-bar"><span></span><i></i></div>
+                <img src="assets/enhanced-listing.png" alt="">
+              </div>
+              <div class="visibility-card visibility-card-front">
+                <div class="visibility-browser-bar"><span></span><i></i></div>
+                <img src="assets/enhanced-profile-preview.PNG" alt="">
+                <button type="button" tabindex="-1">Activate</button>
               </div>
             </div>
 
@@ -240,7 +253,12 @@
 
           <div class="comparison-frame">
             <article class="comparison-column comparison-free" data-comparison-free>
-              <header><h3>Free Listing</h3></header>
+              <header>
+                <h3>Free Listing</h3>
+                <figure class="comparison-asset comparison-asset-free">
+                  <img src="assets/free-listing.png" alt="Free Best Lawyers listing preview for Naifeh, Smith and Greer LLP">
+                </figure>
+              </header>
               <ul>
                 <li class="yes">Lawyer name listed</li>
                 <li class="yes">Award category labels shown</li>
@@ -258,7 +276,12 @@
             <div class="comparison-axis" aria-hidden="true"><span></span></div>
 
             <article class="comparison-column comparison-enhanced" data-comparison-enhanced>
-              <header><h3>Enhanced Profile</h3></header>
+              <header>
+                <h3>Enhanced Profile</h3>
+                <figure class="comparison-asset comparison-asset-enhanced">
+                  <img src="assets/enhanced-listing.png" alt="Enhanced Best Lawyers profile preview for Naifeh, Smith and Greer LLP">
+                </figure>
+              </header>
               <ul>
                 <li class="yes">Everything in Free, plus:</li>
                 <li class="yes">Top placement in search results</li>
@@ -294,19 +317,22 @@
           </div>
 
           <div class="profile-product-stage" data-profile-stage>
-            <div class="product-browser">
-              <div class="product-browser-bar" aria-hidden="true">
-                <span></span><span></span><span></span><i></i>
+            <div class="product-showcase">
+              <div class="product-listing" data-product-listing aria-label="Animated enhanced profile card examples">
+                <figure class="enhanced-card enhanced-card-primary">
+                  <img src="assets/enhanced-profile-preview.PNG" alt="Enhanced profile card preview for Jordan Hayes">
+                </figure>
+                <figure class="enhanced-card enhanced-card-secondary" aria-hidden="true">
+                  <img src="assets/enhanced-profile-preview.PNG" alt="">
+                </figure>
+                <figure class="enhanced-card enhanced-card-tertiary" aria-hidden="true">
+                  <img src="assets/enhanced-profile-preview.PNG" alt="">
+                </figure>
               </div>
-              <div class="product-browser-viewport">
-                <div class="product-listing" data-product-listing>
-                  <img src="assets/enhanced-profile-preview.PNG" alt="Example Enhanced Profile listing for fictional lawyer Jordan Hayes">
-                </div>
-                <div class="product-profile-wrap" data-product-profile-wrap>
-                  <div class="product-profile" data-product-profile>
-                    <img src="assets/full-lawyer-profile.png" alt="Example full Best Lawyers Enhanced Profile for fictional lawyer Jordan Hayes">
-                  </div>
-                </div>
+              <div class="product-profile-wrap" data-product-profile-wrap>
+                <figure class="product-profile" data-product-profile>
+                  <img src="assets/full-lawyer-profile.png" alt="Expanded Best Lawyers Enhanced Profile detail view for Jordan Hayes">
+                </figure>
               </div>
             </div>
           </div>

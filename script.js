@@ -47,18 +47,66 @@ document.documentElement.classList.add("js");
 
     mobileNavigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
+    function formatCount(value, decimals) {
+      return decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
+    }
+
+    function animateMetricCounts(container) {
+      if (!container || container.dataset.countsAnimated === "true") return;
+      container.dataset.countsAnimated = "true";
+
+      const counters = [...container.querySelectorAll("[data-count-up]")];
+      const duration = 1200;
+      const ease = (value) => 1 - Math.pow(1 - value, 3);
+
+      counters.forEach((counter, index) => {
+        const target = Number(counter.dataset.countTo || counter.textContent);
+        const decimals = Number(counter.dataset.countDecimals || 0);
+        const delay = index * 90;
+        let startTime;
+
+        function setFinalValue() {
+          counter.textContent = formatCount(target, decimals);
+        }
+
+        if (prefersReducedMotion.matches || captureMode || Number.isNaN(target)) {
+          setFinalValue();
+          return;
+        }
+
+        function updateCount(timestamp) {
+          if (!startTime) startTime = timestamp + delay;
+          const progress = clamp((timestamp - startTime) / duration);
+          const current = target * ease(progress);
+          counter.textContent = formatCount(current, decimals);
+
+          if (progress < 1) {
+            window.requestAnimationFrame(updateCount);
+          } else {
+            setFinalValue();
+          }
+        }
+
+        window.requestAnimationFrame(updateCount);
+      });
+    }
+
     const revealTargets = document.querySelectorAll(
       "[data-reveal], [data-reveal-left], [data-reveal-right], [data-line-reveal], .hero-metrics-wrap"
     );
 
     if (prefersReducedMotion.matches || captureMode || !("IntersectionObserver" in window)) {
-      revealTargets.forEach((element) => element.classList.add("is-visible"));
+      revealTargets.forEach((element) => {
+        element.classList.add("is-visible");
+        if (element.classList.contains("hero-metrics-wrap")) animateMetricCounts(element);
+      });
     } else {
       const revealObserver = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
             entry.target.classList.add("is-visible");
+            if (entry.target.classList.contains("hero-metrics-wrap")) animateMetricCounts(entry.target);
             observer.unobserve(entry.target);
           });
         },
@@ -70,6 +118,7 @@ document.documentElement.classList.add("js");
 
     const counterflowTrack = document.querySelector("[data-counterflow]");
     const counterflowComposition = document.querySelector("[data-counterflow-composition]");
+    const freeListingScene = document.querySelector("[data-free-listing-scene]");
     const instantTrack = document.querySelector("[data-instant-track]");
     const instantLayout = instantTrack?.querySelector(".instant-layout");
     const comparisonTrack = document.querySelector("[data-comparison-track]");
@@ -86,10 +135,12 @@ document.documentElement.classList.add("js");
     const finalCta = document.querySelector("[data-final-cta]");
     const hero = document.querySelector("[data-hero]");
     const heroStage = document.querySelector("[data-hero-stage]");
+    const searchDemo = document.querySelector("[data-search-demo]");
     const navLinks = [...document.querySelectorAll("[data-nav-link]")];
 
     let metrics = {};
     let ticking = false;
+    let heroDemoStarted = false;
 
     function getHeaderHeight() {
       return header?.offsetHeight || 0;
@@ -129,6 +180,7 @@ document.documentElement.classList.add("js");
           top: 0,
           distance: Math.max(1, (hero?.offsetHeight || window.innerHeight) - getHeaderHeight())
         },
+        freeListing: getScrollMetrics(freeListingScene),
         counterflow: getScrollMetrics(counterflowTrack),
         instant: getScrollMetrics(instantTrack),
         comparison: getScrollMetrics(comparisonTrack),
@@ -160,6 +212,164 @@ document.documentElement.classList.add("js");
       element?.style.setProperty(name, value);
     }
 
+    function dispatchHeroDemoEvent(name, extra = {}) {
+      window.dispatchEvent(
+        new CustomEvent("blpe:hero-search-demo", {
+          detail: {
+            event: name,
+            ...extra
+          }
+        })
+      );
+    }
+
+    function initializeHeroSearchDemo() {
+      if (!searchDemo || !heroStage || heroDemoStarted) return;
+      heroDemoStarted = true;
+
+      const fields = {
+        country: searchDemo.querySelector('[data-demo-field="country"]'),
+        state: searchDemo.querySelector('[data-demo-field="state"]'),
+        city: searchDemo.querySelector('[data-demo-field="city"]'),
+        practice: searchDemo.querySelector('[data-demo-field="practice"]')
+      };
+      const checks = {
+        lawyers: searchDemo.querySelector('[data-demo-check="lawyers"]'),
+        firms: searchDemo.querySelector('[data-demo-check="firms"]')
+      };
+      const submit = searchDemo.querySelector("[data-demo-submit]");
+      const timers = new Set();
+      let interrupted = false;
+
+      const values = {
+        country: "United States",
+        state: "New York",
+        city: "New York",
+        practice: "Personal Injury Litigation - Plaintiffs"
+      };
+
+      function setTimer(callback, delay) {
+        const timer = window.setTimeout(() => {
+          timers.delete(timer);
+          callback();
+        }, delay);
+        timers.add(timer);
+      }
+
+      function clearTimers() {
+        timers.forEach((timer) => window.clearTimeout(timer));
+        timers.clear();
+      }
+
+      function setFieldOpen(name, isOpen) {
+        const field = fields[name];
+        if (!field) return;
+        field.classList.toggle("is-active", isOpen);
+        field.classList.toggle("is-open", isOpen);
+        field.querySelector("button")?.setAttribute("aria-expanded", String(isOpen));
+      }
+
+      function selectField(name) {
+        const field = fields[name];
+        if (!field) return;
+        field.querySelector("[data-demo-value]").textContent = values[name];
+        field.querySelector("[data-demo-option]")?.classList.add("is-selected");
+        field.classList.add("is-selected");
+      }
+
+      function selectCheck(name) {
+        const check = checks[name];
+        if (!check) return;
+        check.classList.add("is-active");
+        check.querySelector("input").checked = true;
+        setTimer(() => {
+          check.classList.add("is-checked");
+          check.classList.remove("is-active");
+        }, 120);
+      }
+
+      function showCompletedState() {
+        Object.keys(fields).forEach((name) => {
+          setFieldOpen(name, false);
+          selectField(name);
+        });
+        Object.keys(checks).forEach((name) => {
+          const check = checks[name];
+          check?.classList.add("is-checked");
+          const input = check?.querySelector("input");
+          if (input) input.checked = true;
+        });
+        submit?.classList.remove("is-engaged");
+        heroStage.classList.add("hero-shell-ready");
+        heroStage.classList.add("demo-results-visible");
+        searchDemo.dataset.demoState = "complete";
+      }
+
+      function completeImmediately(reason) {
+        clearTimers();
+        interrupted = true;
+        showCompletedState();
+        if (reason) dispatchHeroDemoEvent(reason);
+      }
+
+      searchDemo.addEventListener(
+        "pointerdown",
+        () => {
+          if (!interrupted && searchDemo.dataset.demoState !== "complete") {
+            completeImmediately("hero_search_demo_interrupted");
+          }
+        },
+        { once: true }
+      );
+
+      if (prefersReducedMotion.matches || captureMode) {
+        showCompletedState();
+        dispatchHeroDemoEvent("hero_search_demo_completed", { reducedMotion: prefersReducedMotion.matches });
+        return;
+      }
+
+      const steps = [
+        { state: "countryOpening", delay: 850, run: () => setFieldOpen("country", true) },
+        { state: "countrySelected", delay: 520, event: "hero_search_demo_country_selected", run: () => selectField("country") },
+        { state: "countryClosing", delay: 260, run: () => setFieldOpen("country", false) },
+        { state: "stateOpening", delay: 260, run: () => setFieldOpen("state", true) },
+        { state: "stateSelected", delay: 500, event: "hero_search_demo_state_selected", run: () => selectField("state") },
+        { state: "stateClosing", delay: 240, run: () => setFieldOpen("state", false) },
+        { state: "cityOpening", delay: 240, run: () => setFieldOpen("city", true) },
+        { state: "citySelected", delay: 500, event: "hero_search_demo_city_selected", run: () => selectField("city") },
+        { state: "cityClosing", delay: 240, run: () => setFieldOpen("city", false) },
+        { state: "practiceOpening", delay: 260, run: () => setFieldOpen("practice", true) },
+        { state: "practiceSelected", delay: 620, event: "hero_search_demo_practice_selected", run: () => selectField("practice") },
+        { state: "practiceClosing", delay: 280, run: () => setFieldOpen("practice", false) },
+        { state: "lawyersSelected", delay: 260, run: () => selectCheck("lawyers") },
+        { state: "firmsSelected", delay: 260, event: "hero_search_demo_filters_selected", run: () => selectCheck("firms") },
+        { state: "searchEngaged", delay: 420, event: "hero_search_demo_submitted", run: () => submit?.classList.add("is-engaged") },
+        { state: "searchSettled", delay: 280, run: () => submit?.classList.remove("is-engaged") },
+        { state: "resultsEntering", delay: 80, event: "hero_search_demo_results_visible", run: () => heroStage.classList.add("demo-results-visible") },
+        { state: "complete", delay: 760, event: "hero_search_demo_completed", run: () => showCompletedState() }
+      ];
+
+      dispatchHeroDemoEvent("hero_search_demo_started");
+      setTimer(() => heroStage.classList.add("hero-shell-ready"), 1220);
+
+      let index = 0;
+      function runNextStep() {
+        if (interrupted) return;
+        const step = steps[index];
+        if (!step) return;
+        setTimer(() => {
+          if (interrupted) return;
+          searchDemo.dataset.demoState = step.state;
+          step.run();
+          if (step.event) dispatchHeroDemoEvent(step.event);
+          index += 1;
+          runNextStep();
+        }, step.delay);
+      }
+
+      runNextStep();
+    }
+
     function updateCounterflow() {
       if (!counterflowTrack || !counterflowComposition || window.innerWidth <= 820 || captureMode) return;
       const progress = progressFor(metrics.counterflow);
@@ -178,13 +388,22 @@ document.documentElement.classList.add("js");
       if (!instantTrack || !instantLayout || window.innerWidth <= 820 || captureMode) return;
       const progress = progressFor(metrics.instant);
       const pageEntrance = easeOutCubic(range(progress, 0, 0.3));
+      const layerEntrance = easeOutCubic(range(progress, 0.02, 0.46));
       const headlineEntrance = easeOutCubic(range(progress, 0.13, 0.42));
       const wordEntrance = easeOutCubic(range(progress, 0.17, 0.45));
       const solutionEntrance = easeOutCubic(range(progress, 0.5, 0.82));
       const statExit = easeInOutCubic(range(progress, 0.62, 0.9));
 
       setProperty(instantLayout, "--pages-y", `${lerp(120, -18, pageEntrance).toFixed(2)}px`);
-      setProperty(instantLayout, "--headline-opacity", headlineEntrance.toFixed(3));
+      setProperty(instantLayout, "--pages-opacity", lerp(0.34, 1, layerEntrance).toFixed(3));
+      setProperty(instantLayout, "--visibility-back-y", `${lerp(84, 0, easeOutCubic(range(progress, 0.02, 0.34))).toFixed(2)}px`);
+      setProperty(instantLayout, "--visibility-mid-y", `${lerp(128, 0, easeOutCubic(range(progress, 0.1, 0.42))).toFixed(2)}px`);
+      setProperty(instantLayout, "--visibility-front-y", `${lerp(172, 0, easeOutCubic(range(progress, 0.18, 0.52))).toFixed(2)}px`);
+      setProperty(instantLayout, "--visibility-back-rotate", `${lerp(-9, -4, layerEntrance).toFixed(2)}deg`);
+      setProperty(instantLayout, "--visibility-mid-rotate", `${lerp(8, 3, layerEntrance).toFixed(2)}deg`);
+      setProperty(instantLayout, "--visibility-front-rotate", `${lerp(-5, -.8, layerEntrance).toFixed(2)}deg`);
+      setProperty(instantLayout, "--visibility-button-scale", lerp(0.84, 1, easeOutCubic(range(progress, 0.24, 0.44))).toFixed(4));
+      setProperty(instantLayout, "--headline-opacity", lerp(0.18, 1, headlineEntrance).toFixed(3));
       setProperty(instantLayout, "--word-x", `${lerp(-72, 0, wordEntrance).toFixed(2)}px`);
       setProperty(instantLayout, "--word-y", `${lerp(90, 0, wordEntrance).toFixed(2)}px`);
       setProperty(instantLayout, "--word-scale", lerp(0.72, 1, wordEntrance).toFixed(4));
@@ -210,7 +429,6 @@ document.documentElement.classList.add("js");
       if (!profileStory || !profileGrid || window.innerWidth <= 820 || captureMode) return;
       const progress = progressFor(metrics.profile);
       const browserEntrance = easeOutCubic(range(progress, 0, 0.18));
-      const ctaEmphasis = easeInOutCubic(range(progress, 0.34, 0.48)) * (1 - range(progress, 0.48, 0.6));
       const listingExit = easeInOutCubic(range(progress, 0.42, 0.56));
       const profileEntrance = easeOutCubic(range(progress, 0.5, 0.64));
       const secondEntrance = easeOutCubic(range(progress, 0.52, 0.72));
@@ -222,7 +440,6 @@ document.documentElement.classList.add("js");
       setProperty(profileGrid, "--browser-scale", lerp(0.96, 1, browserEntrance).toFixed(4));
       setProperty(profileGrid, "--listing-opacity", (1 - listingExit).toFixed(3));
       setProperty(profileGrid, "--listing-scale", lerp(1, 1.04, listingExit).toFixed(4));
-      setProperty(profileGrid, "--listing-cta-glow", ctaEmphasis.toFixed(3));
       setProperty(profileGrid, "--profile-opacity", profileEntrance.toFixed(3));
       setProperty(profileGrid, "--second-opacity", secondEntrance.toFixed(3));
       setProperty(profileGrid, "--second-y", `${lerp(44, 0, secondEntrance).toFixed(2)}px`);
@@ -239,37 +456,94 @@ document.documentElement.classList.add("js");
     function updatePayHeadlineReveal() {
       if (!paySection || !payHeadline || captureMode) return;
       const progress = progressFor(metrics.pay);
-      const reveal = lerp(0, 100, progress);
-      const bottomInset = 100 - reveal;
+      const headlineReveal = progress > 0.01 ? 100 : 0;
+      const bottomInset = 100 - headlineReveal;
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
+      setProperty(paySection, "--pay-headline-accent", "rgb(235,70,74)");
+    }
+
+    function updateFreeListingScene() {
+      if (!freeListingScene || captureMode) return;
+      const progress = progressFor(metrics.freeListing);
+      const mobile = window.innerWidth <= 820;
+      const headerIn = easeOutCubic(range(progress, 0.12, 0.26));
+      const bodyIn = easeOutCubic(range(progress, 0.22, 0.42));
+      const cardIn = easeOutCubic(range(progress, 0.36, 0.52));
+      const headingIn = easeOutCubic(range(progress, 0, 0.12));
+      const headingOut = easeInOutCubic(range(progress, 0.72, 0.88));
+      const cardOut = easeInOutCubic(range(progress, 0.68, 0.78));
+      const headerOut = easeInOutCubic(range(progress, 0.76, 0.88));
+      const bodyOut = easeInOutCubic(range(progress, 0.84, 1));
+      const cardSettle = Math.sin(range(progress, 0.52, 0.62) * Math.PI) * 0.012;
+
+      const headerStartY = mobile ? -26 : -40;
+      const bodyStartY = mobile ? 42 : 70;
+      const cardStartX = mobile ? 54 : 100;
+      const cardExitX = mobile ? 78 : 140;
+      const cardExitY = mobile ? -12 : -20;
+      const headerExitY = mobile ? -48 : -80;
+      const bodyExitY = mobile ? 56 : 90;
+      const headingExitY = mobile ? -24 : -40;
+
+      setProperty(freeListingScene, "--free-heading-opacity", (headingIn * (1 - headingOut)).toFixed(3));
+      setProperty(freeListingScene, "--free-heading-y", `${(lerp(18, 0, headingIn) + lerp(0, headingExitY, headingOut)).toFixed(2)}px`);
+      setProperty(freeListingScene, "--free-header-opacity", (headerIn * (1 - headerOut)).toFixed(3));
+      setProperty(freeListingScene, "--free-header-y", `${(lerp(headerStartY, 0, headerIn) + lerp(0, headerExitY, headerOut)).toFixed(2)}px`);
+      setProperty(freeListingScene, "--free-header-scale", lerp(0.985, 1, headerIn).toFixed(4));
+      setProperty(freeListingScene, "--free-body-opacity", (bodyIn * (1 - bodyOut)).toFixed(3));
+      setProperty(freeListingScene, "--free-body-y", `${(lerp(bodyStartY, 0, bodyIn) + lerp(0, bodyExitY, bodyOut)).toFixed(2)}px`);
+      setProperty(freeListingScene, "--free-body-scale", (lerp(0.99, 1, bodyIn) + lerp(0, -0.015, bodyOut)).toFixed(4));
+      setProperty(freeListingScene, "--free-card-opacity", (cardIn * (1 - cardOut)).toFixed(3));
+      setProperty(freeListingScene, "--free-card-x", `${(lerp(cardStartX, 0, cardIn) + lerp(0, cardExitX, cardOut)).toFixed(2)}px`);
+      setProperty(freeListingScene, "--free-card-y", `${(lerp(10, 0, cardIn) + lerp(0, cardExitY, cardOut)).toFixed(2)}px`);
+      setProperty(freeListingScene, "--free-card-scale", (lerp(0.97, 1, cardIn) + cardSettle).toFixed(4));
+      setProperty(freeListingScene, "--free-card-rotate", `${lerp(0, 2, cardOut).toFixed(2)}deg`);
     }
 
     function updateHero() {
       if (!hero || prefersReducedMotion.matches || captureMode) return;
       const progress = progressFor(metrics.hero);
-      const earlyExit = easeInOutCubic(range(progress, 0.2, 0.46));
-      const finalHold = easeInOutCubic(range(progress, 0.38, 0.58));
-      const resolutionExit = easeInOutCubic(range(progress, 0.48, 0.68));
-      const resultClear = easeInOutCubic(range(progress, 0.34, 0.64));
-      const searchExit = easeInOutCubic(range(progress, 0.22, 0.72));
+      const cardExit = easeInOutCubic(range(progress, 0.06, 0.32));
+      const cardFade = easeInOutCubic(range(progress, 0.24, 0.38));
+      const searchExit = easeInOutCubic(range(progress, 0.34, 0.82));
+      const searchFade = easeInOutCubic(range(progress, 0.58, 0.84));
+      const textExit = easeInOutCubic(range(progress, 0.34, 0.66));
+      const textFade = easeInOutCubic(range(progress, 0.5, 0.7));
       const mobile = window.innerWidth <= 820;
 
-      setProperty(hero, "--hero-copy-y", `${lerp(0, mobile ? -14 : -15, earlyExit).toFixed(2)}px`);
-      setProperty(hero, "--hero-copy-opacity", lerp(1, 0.18, easeInOutCubic(range(progress, 0.58, 0.86))).toFixed(3));
-      setProperty(hero, "--hero-search-y", `${lerp(0, mobile ? -16 : -50, searchExit).toFixed(2)}px`);
-      setProperty(hero, "--hero-search-opacity", lerp(1, 0, easeInOutCubic(range(progress, 0.5, 0.82))).toFixed(3));
-      setProperty(hero, "--hero-search-scale", lerp(1, mobile ? 0.995 : 0.985, searchExit).toFixed(4));
-      setProperty(hero, "--hero-early-opacity", lerp(1, 0, earlyExit).toFixed(3));
-      setProperty(hero, "--hero-final-opacity", lerp(1, 0, finalHold).toFixed(3));
-      setProperty(hero, "--hero-final-y", `${lerp(0, -18, finalHold).toFixed(2)}px`);
-      setProperty(hero, "--hero-resolution-opacity", lerp(1, 0, resolutionExit).toFixed(3));
-      setProperty(hero, "--hero-resolution-y", `${lerp(0, -26, resolutionExit).toFixed(2)}px`);
+      setProperty(hero, "--hero-copy-y", `${lerp(0, mobile ? -560 : -760, textExit).toFixed(2)}px`);
+      setProperty(hero, "--hero-copy-opacity", lerp(1, 0, textFade).toFixed(3));
+      setProperty(hero, "--hero-search-x", "0px");
+      setProperty(hero, "--hero-search-y", "0px");
+      setProperty(hero, "--hero-search-opacity", lerp(1, 0, searchFade).toFixed(3));
+      setProperty(hero, "--hero-search-scale", "1");
+      setProperty(hero, "--hero-shell-x", "0px");
+      setProperty(hero, "--hero-shell-y", `${lerp(0, mobile ? -620 : -900, searchExit).toFixed(2)}px`);
+      setProperty(hero, "--hero-shell-opacity", lerp(1, 0, searchFade).toFixed(3));
+      setProperty(hero, "--hero-shell-scale", "1");
+      setProperty(hero, "--hero-line-one-x", "0px");
+      setProperty(hero, "--hero-line-one-y", "0px");
+      setProperty(hero, "--hero-line-one-opacity", "1");
+      setProperty(hero, "--hero-line-two-x", "0px");
+      setProperty(hero, "--hero-line-two-y", "0px");
+      setProperty(hero, "--hero-line-two-opacity", "1");
+      setProperty(hero, "--hero-line-three-x", "0px");
+      setProperty(hero, "--hero-line-three-y", "0px");
+      setProperty(hero, "--hero-line-three-opacity", "1");
+      setProperty(hero, "--hero-line-four-x", "0px");
+      setProperty(hero, "--hero-line-four-y", "0px");
+      setProperty(hero, "--hero-line-four-opacity", "1");
+      setProperty(hero, "--hero-early-opacity", "1");
+      setProperty(hero, "--hero-final-opacity", "1");
+      setProperty(hero, "--hero-final-y", "0px");
+      setProperty(hero, "--hero-resolution-opacity", "1");
+      setProperty(hero, "--hero-resolution-y", "0px");
 
       if (heroStage) {
-        setProperty(heroStage, "--hero-results-x", `${lerp(0, mobile ? 0 : -18, resultClear).toFixed(2)}px`);
-        setProperty(heroStage, "--hero-results-y", `${lerp(0, mobile ? 18 : 30, resultClear).toFixed(2)}px`);
-        setProperty(heroStage, "--hero-results-opacity", lerp(1, 0, easeInOutCubic(range(progress, 0.42, 0.68))).toFixed(3));
-        setProperty(heroStage, "--hero-results-scale", lerp(1, 0.985, resultClear).toFixed(4));
+        setProperty(heroStage, "--hero-results-x", "0px");
+        setProperty(heroStage, "--hero-results-y", `${lerp(0, mobile ? -500 : -820, cardExit).toFixed(2)}px`);
+        setProperty(heroStage, "--hero-results-opacity", lerp(1, 0, cardFade).toFixed(3));
+        setProperty(heroStage, "--hero-results-scale", "1");
       }
     }
 
@@ -338,14 +612,70 @@ document.documentElement.classList.add("js");
         if (hero) {
           setProperty(hero, "--hero-copy-y", "0px");
           setProperty(hero, "--hero-copy-opacity", "1");
+          setProperty(hero, "--hero-search-x", "0px");
           setProperty(hero, "--hero-search-y", "0px");
           setProperty(hero, "--hero-search-opacity", "1");
           setProperty(hero, "--hero-search-scale", "1");
+          setProperty(hero, "--hero-shell-x", "0px");
+          setProperty(hero, "--hero-shell-y", "0px");
+          setProperty(hero, "--hero-shell-opacity", "1");
+          setProperty(hero, "--hero-shell-scale", "1");
+          setProperty(hero, "--hero-line-one-x", "0px");
+          setProperty(hero, "--hero-line-one-y", "0px");
+          setProperty(hero, "--hero-line-one-opacity", "1");
+          setProperty(hero, "--hero-line-two-x", "0px");
+          setProperty(hero, "--hero-line-two-y", "0px");
+          setProperty(hero, "--hero-line-two-opacity", "1");
+          setProperty(hero, "--hero-line-three-x", "0px");
+          setProperty(hero, "--hero-line-three-y", "0px");
+          setProperty(hero, "--hero-line-three-opacity", "1");
+          setProperty(hero, "--hero-line-four-x", "0px");
+          setProperty(hero, "--hero-line-four-y", "0px");
+          setProperty(hero, "--hero-line-four-opacity", "1");
           setProperty(hero, "--hero-early-opacity", "1");
           setProperty(hero, "--hero-final-opacity", "1");
           setProperty(hero, "--hero-final-y", "0px");
           setProperty(hero, "--hero-resolution-opacity", "1");
           setProperty(hero, "--hero-resolution-y", "0px");
+        }
+        if (instantLayout) {
+          setProperty(instantLayout, "--pages-y", "0px");
+          setProperty(instantLayout, "--pages-opacity", "1");
+          setProperty(instantLayout, "--visibility-back-y", "0px");
+          setProperty(instantLayout, "--visibility-mid-y", "0px");
+          setProperty(instantLayout, "--visibility-front-y", "0px");
+          setProperty(instantLayout, "--visibility-back-rotate", "-4deg");
+          setProperty(instantLayout, "--visibility-mid-rotate", "3deg");
+          setProperty(instantLayout, "--visibility-front-rotate", "-.8deg");
+          setProperty(instantLayout, "--visibility-button-scale", "1");
+          setProperty(instantLayout, "--headline-opacity", "1");
+          setProperty(instantLayout, "--word-x", "0px");
+          setProperty(instantLayout, "--word-y", "0px");
+          setProperty(instantLayout, "--word-scale", "1");
+          setProperty(instantLayout, "--word-blur", "0px");
+          setProperty(instantLayout, "--solution-opacity", "1");
+          setProperty(instantLayout, "--solution-y", "0px");
+          setProperty(instantLayout, "--stat-opacity", "1");
+          setProperty(instantLayout, "--stat-y", "0px");
+        }
+        if (freeListingScene) {
+          setProperty(freeListingScene, "--free-heading-opacity", "1");
+          setProperty(freeListingScene, "--free-heading-y", "0px");
+          setProperty(freeListingScene, "--free-header-opacity", "1");
+          setProperty(freeListingScene, "--free-header-y", "0px");
+          setProperty(freeListingScene, "--free-header-scale", "1");
+          setProperty(freeListingScene, "--free-body-opacity", "1");
+          setProperty(freeListingScene, "--free-body-y", "0px");
+          setProperty(freeListingScene, "--free-body-scale", "1");
+          setProperty(freeListingScene, "--free-card-opacity", "1");
+          setProperty(freeListingScene, "--free-card-x", "0px");
+          setProperty(freeListingScene, "--free-card-y", "0px");
+          setProperty(freeListingScene, "--free-card-scale", "1");
+          setProperty(freeListingScene, "--free-card-rotate", "0deg");
+        }
+        if (paySection && payHeadline) {
+          setProperty(payHeadline, "--pay-headline-clip", "0%");
+          setProperty(paySection, "--pay-headline-accent", "rgb(235,70,74)");
         }
         if (finalCta) {
           setProperty(finalCta, "--final-headline-y", "0px");
@@ -364,6 +694,7 @@ document.documentElement.classList.add("js");
         return;
       }
       updateHero();
+      updateFreeListingScene();
       updateCounterflow();
       updateInstant();
       updateComparison();
@@ -423,7 +754,10 @@ document.documentElement.classList.add("js");
       });
     });
 
-    Promise.all(imagePromises).then(refreshMetrics);
+    Promise.all(imagePromises).then(() => {
+      refreshMetrics();
+      initializeHeroSearchDemo();
+    });
     refreshMetrics();
   }
 
