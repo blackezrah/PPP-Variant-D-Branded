@@ -504,7 +504,6 @@ document.documentElement.classList.add("js");
       const copyOpacity = lerp(0.82, 1, copyIn) * lerp(1, 0, range(progress, 0.9, 1));
 
       const primaryIn = easeOutCubic(range(progress, 0.02, 0.18));
-      const primarySpin = range(progress, 0.56, 0.64);
       const takeover = easeOutCubic(range(progress, 0.64, 0.76));
       const profileHold = range(progress, 0.76, 0.84);
       const exit = easeInOutCubic(range(progress, 0.84, 1));
@@ -532,11 +531,10 @@ document.documentElement.classList.add("js");
 
       const primaryFade = easeInOutCubic(range(progress, 0.66, 0.74));
       const primaryScale = lerp(0.76, 1, primaryIn)
-        + Math.sin(primarySpin * Math.PI) * 0.04
         + lerp(0, -0.08, primaryFade);
       const primaryY = lerp(52, 0, primaryIn);
       const primaryOpacity = easeOutCubic(range(progress, 0, 0.1)) * (1 - primaryFade);
-      const primaryRotate = lerp(-1.5, 0, primaryIn) + primarySpin * 720;
+      const primaryRotate = lerp(-1.5, 0, primaryIn);
 
       primaryProfileCard?.style.setProperty("--card-x", "0px");
       primaryProfileCard?.style.setProperty("--card-y", `${primaryY.toFixed(2)}px`);
@@ -687,9 +685,9 @@ document.documentElement.classList.add("js");
       if (!finalCta || captureMode) return;
       const progress = progressFor(metrics.finalCta);
       const descend = easeInOutCubic(range(progress, 0, 0.25));
-      const release = easeInOutCubic(range(progress, 0.88, 1));
-      const headlineY = lerp(-window.innerHeight * 0.32, 0, descend) + lerp(0, window.innerHeight * 0.62, release);
-      const eyebrow = easeOutCubic(range(progress, 0.14, 0.25)) * (1 - range(progress, 0.9, 1));
+      const finalSettleHeadline = easeInOutCubic(range(progress, 0.78, 1));
+      const headlineY = lerp(-window.innerHeight * 0.32, 0, descend) + lerp(0, window.innerHeight * 0.025, finalSettleHeadline);
+      const eyebrow = easeOutCubic(range(progress, 0.14, 0.25));
       const argumentIn = easeOutCubic(range(progress, 0.3, 0.52));
       const argumentOut = easeInOutCubic(range(progress, 0.56, 0.68));
       const argumentOpacity = argumentIn * (1 - argumentOut);
@@ -698,21 +696,27 @@ document.documentElement.classList.add("js");
         ? lerp(0, mobile ? -42 : -window.innerWidth * 0.16, argumentOut)
         : lerp(mobile ? 42 : window.innerWidth * 0.18, 0, argumentIn);
       const actionIn = easeOutCubic(range(progress, 0.6, 0.76));
-      const actionOut = easeInOutCubic(range(progress, 0.88, 1));
-      const rule = easeInOutCubic(range(progress, 0.25, 0.34)) * (1 - range(progress, 0.9, 1));
+      const finalSettle = easeInOutCubic(range(progress, 0.78, 1));
+      const rule = easeInOutCubic(range(progress, 0.25, 0.34));
+      const noteIn = easeOutCubic(range(progress, 0.66, 0.8));
+      const pulseWindow = range(progress, 0.8, 0.96);
+      const pulseEnvelope = Math.sin(pulseWindow * Math.PI);
+      const pulse = Math.max(0, Math.sin(pulseWindow * Math.PI * 6)) * Math.max(0, pulseEnvelope);
+      const finalActionLift = mobile ? -34 : -52;
 
       setProperty(finalCta, "--final-headline-y", `${headlineY.toFixed(2)}px`);
-      setProperty(finalCta, "--final-headline-opacity", lerp(1, 0, range(progress, 0.96, 1)).toFixed(3));
+      setProperty(finalCta, "--final-headline-opacity", "1");
       setProperty(finalCta, "--final-eyebrow-opacity", eyebrow.toFixed(3));
       setProperty(finalCta, "--final-eyebrow-x", `${lerp(mobile ? -18 : -34, 0, eyebrow).toFixed(2)}px`);
       setProperty(finalCta, "--final-rule-scale", rule.toFixed(3));
       setProperty(finalCta, "--final-argument-opacity", argumentOpacity.toFixed(3));
       setProperty(finalCta, "--final-argument-x", `${argumentX.toFixed(2)}px`);
       setProperty(finalCta, "--final-argument-y", `${lerp(30, -8, argumentIn).toFixed(2)}px`);
-      setProperty(finalCta, "--final-action-opacity", (actionIn * (1 - actionOut)).toFixed(3));
-      setProperty(finalCta, "--final-action-y", `${(lerp(window.innerHeight * 0.14, 0, actionIn) + lerp(0, window.innerHeight * 0.52, actionOut)).toFixed(2)}px`);
-      setProperty(finalCta, "--final-note-opacity", (easeOutCubic(range(progress, 0.66, 0.8)) * (1 - actionOut)).toFixed(3));
-      setProperty(finalCta, "--final-note-y", `${(lerp(18, 0, easeOutCubic(range(progress, 0.66, 0.8))) + lerp(0, window.innerHeight * 0.48, actionOut)).toFixed(2)}px`);
+      setProperty(finalCta, "--final-action-opacity", actionIn.toFixed(3));
+      setProperty(finalCta, "--final-action-y", `${(lerp(window.innerHeight * 0.14, 0, actionIn) + lerp(0, finalActionLift, finalSettle)).toFixed(2)}px`);
+      setProperty(finalCta, "--final-button-scale", (1 + pulse * 0.035).toFixed(4));
+      setProperty(finalCta, "--final-note-opacity", noteIn.toFixed(3));
+      setProperty(finalCta, "--final-note-y", `${(lerp(18, 0, noteIn) + lerp(0, finalActionLift * 0.72, finalSettle)).toFixed(2)}px`);
     }
 
     function updatePageProgress() {

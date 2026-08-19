@@ -629,6 +629,45 @@ a:focus-visible {
   display: block;
 }
 
+.hero-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-top: clamp(22px, 3vh, 34px);
+  color: var(--coral);
+  border: 1px solid color-mix(in srgb, var(--coral) 42%, transparent);
+  border-radius: 999px;
+  text-decoration: none;
+  animation: heroScrollCue 1.45s cubic-bezier(.45, 0, .2, 1) infinite;
+  will-change: transform;
+}
+
+.hero-scroll-cue svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-scroll-cue:hover {
+  background: color-mix(in srgb, var(--coral) 8%, transparent);
+}
+
+@keyframes heroScrollCue {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 9px, 0);
+  }
+}
+
 .hero-search-stage {
   --hero-results-x: 0px;
   --hero-results-y: 0px;
@@ -2799,6 +2838,7 @@ a:focus-visible {
   --final-argument-y: 0px;
   --final-action-opacity: 1;
   --final-action-y: 0px;
+  --final-button-scale: 1;
   --final-note-opacity: 1;
   --final-note-y: 0px;
   position: relative;
@@ -2936,11 +2976,15 @@ a:focus-visible {
   min-height: 60px;
   padding-inline: 34px;
   white-space: nowrap;
+  transform: scale(var(--final-button-scale));
+  transform-origin: center;
+  will-change: transform;
 }
 
 .final-cta .button:hover {
   background: var(--coral-deep);
   border-color: var(--coral-deep);
+  transform: translateY(-2px) scale(var(--final-button-scale));
 }
 
 .final-cta-note {
@@ -4453,6 +4497,7 @@ body.capture-mode .benefit-panel:last-child {
   .hero-resolution,
   .hero-resolution span,
   .hero-resolution em,
+  .hero-scroll-cue,
   .hero-query-mask span,
   .hero-query-row i,
   .hero-query-row svg,
@@ -4480,6 +4525,7 @@ body.capture-mode .benefit-panel:last-child {
     --final-argument-y: 0px !important;
     --final-action-opacity: 1 !important;
     --final-action-y: 0px !important;
+    --final-button-scale: 1 !important;
     --final-note-opacity: 1 !important;
     --final-note-y: 0px !important;
   }
