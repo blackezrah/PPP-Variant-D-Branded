@@ -6,6 +6,17 @@
   <meta name="description" content="Best Lawyers Enhanced Profile landing page prototype.">
   <title>Enhanced Profile | Best Lawyers</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-preview.PNG">
+  <link rel="preload" as="image" href="assets/full-lawyer-profile.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-01.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-02.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-03.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-04.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-05.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-06.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-07.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-08.png">
+  <link rel="preload" as="image" href="assets/enhanced-profile-card-fictional-09.png">
   <link rel="stylesheet" href="styles.css">
   <script defer src="script.js"></script>
 </head>
@@ -331,19 +342,40 @@
           <div class="profile-product-stage" data-profile-stage>
             <div class="product-showcase">
               <div class="product-listing" data-product-listing aria-label="Animated enhanced profile card examples">
-                <figure class="enhanced-card enhanced-card-primary">
-                  <img src="assets/enhanced-profile-preview.PNG" alt="Enhanced profile card preview for Jordan Hayes">
+                <figure class="enhanced-card enhanced-card-primary" data-profile-primary-card>
+                  <img src="assets/enhanced-profile-preview.PNG" alt="Enhanced profile card preview for Jordan Hayes" loading="eager" decoding="async">
                 </figure>
-                <figure class="enhanced-card enhanced-card-secondary" aria-hidden="true">
-                  <img src="assets/enhanced-profile-card-nick-crosby.png" alt="">
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-01.png" alt="" loading="eager" decoding="async">
                 </figure>
-                <figure class="enhanced-card enhanced-card-tertiary" aria-hidden="true">
-                  <img src="assets/enhanced-profile-card-emily-buchwald.png" alt="">
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-02.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-03.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-04.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-05.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-06.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-07.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-08.png" alt="" loading="eager" decoding="async">
+                </figure>
+                <figure class="enhanced-card enhanced-card-radial" data-profile-radial-card aria-hidden="true">
+                  <img src="assets/enhanced-profile-card-fictional-09.png" alt="" loading="eager" decoding="async">
                 </figure>
               </div>
               <div class="product-profile-wrap" data-product-profile-wrap>
                 <figure class="product-profile" data-product-profile>
-                  <img src="assets/full-lawyer-profile.png" alt="Expanded Best Lawyers Enhanced Profile detail view for Jordan Hayes">
+                  <img src="assets/full-lawyer-profile.png" alt="Expanded Best Lawyers Enhanced Profile detail view for Jordan Hayes" loading="eager" decoding="async">
                 </figure>
               </div>
             </div>
@@ -352,9 +384,9 @@
       </div>
     </section>
 
-    <section class="pay-section" data-pay-section data-scroll-section>
+    <section class="pay-section" id="pay-to-play" data-pay-section data-scroll-section>
       <div class="container pay-grid">
-        <div class="pay-question" data-reveal-left>
+        <div class="pay-question" id="pay-question" data-reveal-left>
           <h2 data-pay-headline><span class="pay-headline-base">Isn’t this “pay to play”?</span><span class="pay-headline-fill" aria-hidden="true">Isn’t this “pay to play”?</span></h2>
           <p>Fair question.</p>
         </div>

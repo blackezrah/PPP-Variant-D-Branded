@@ -2207,7 +2207,7 @@ a:focus-visible {
 /* Profile product story */
 .profile-story {
   position: relative;
-  height: 340vh;
+  height: 390vh;
   background: var(--white);
 }
 
@@ -2221,11 +2221,18 @@ a:focus-visible {
 .profile-story-grid {
   --second-opacity: 0;
   --second-y: 44px;
+  --copy-y: 0px;
+  --copy-opacity: 1;
   --listing-opacity: 1;
   --listing-scale: 1;
   --profile-opacity: 0;
+  --profile-x: 0px;
   --profile-y: 0px;
-  --browser-scale: .96;
+  --profile-image-y: 0px;
+  --profile-scale: .04;
+  --profile-clip: 49%;
+  --showcase-y: 0px;
+  --showcase-scale: .96;
   height: 100%;
   display: grid;
   grid-template-columns: minmax(360px, .7fr) minmax(680px, 1.3fr);
@@ -2237,6 +2244,9 @@ a:focus-visible {
 
 .profile-story-copy {
   max-width: 620px;
+  opacity: var(--copy-opacity);
+  transform: translate3d(0, var(--copy-y), 0);
+  will-change: transform, opacity;
 }
 
 .profile-story-copy h2 {
@@ -2307,7 +2317,7 @@ a:focus-visible {
   position: relative;
   width: min(100%, 940px);
   height: min(700px, calc(100svh - 142px));
-  transform: rotateY(-3deg) rotateX(.8deg) scale(var(--browser-scale));
+  transform: translate3d(0, var(--showcase-y), 0) rotateY(-3deg) rotateX(.8deg) scale(var(--showcase-scale));
   transform-origin: center;
   will-change: transform;
 }
@@ -2322,13 +2332,24 @@ a:focus-visible {
 }
 
 .enhanced-card {
+  --card-x: 0px;
+  --card-y: 0px;
+  --card-scale: 1;
+  --card-rotate: 0deg;
+  --card-opacity: 1;
   position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(36%, 318px);
   margin: 0;
   border: 1px solid rgba(26,31,37,.16);
   border-radius: 18px;
   overflow: hidden;
   background: var(--white);
   box-shadow: 0 34px 84px rgba(17,23,30,.18);
+  opacity: var(--card-opacity);
+  transform: translate(-50%, -50%) translate3d(var(--card-x), var(--card-y), 0) rotate(var(--card-rotate)) scale(var(--card-scale));
+  transform-origin: center;
   will-change: transform, opacity;
 }
 
@@ -2338,31 +2359,14 @@ a:focus-visible {
 }
 
 .enhanced-card-primary {
-  z-index: 3;
-  left: 43%;
-  top: 7%;
+  z-index: 20;
   width: min(46%, 380px);
-  animation: enhancedCardPrimary 9s ease-in-out infinite;
 }
 
-.enhanced-card-secondary {
-  z-index: 2;
-  left: 8%;
-  top: 20%;
-  width: min(38%, 318px);
-  opacity: .82;
-  filter: saturate(.94);
-  animation: enhancedCardSecondary 9s ease-in-out infinite;
-}
-
-.enhanced-card-tertiary {
-  z-index: 1;
-  right: 2%;
-  top: 30%;
-  width: min(34%, 282px);
-  opacity: .58;
+.enhanced-card-radial {
+  z-index: 5;
+  width: min(34%, 292px);
   filter: saturate(.88);
-  animation: enhancedCardTertiary 9s ease-in-out infinite;
 }
 
 .product-profile-wrap {
@@ -2378,55 +2382,22 @@ a:focus-visible {
   border-radius: 22px;
   background: var(--white);
   box-shadow: 0 38px 92px rgba(17,23,30,.14);
-  will-change: opacity;
+  clip-path: inset(var(--profile-clip) var(--profile-clip) var(--profile-clip) var(--profile-clip) round 18px);
+  transform: translate3d(var(--profile-x), var(--profile-y), 0) scale(var(--profile-scale));
+  transform-origin: center;
+  will-change: transform, opacity, clip-path;
 }
 
 .product-profile {
   width: 132%;
   margin: 0;
-  transform: translateY(var(--profile-y));
+  transform: translateY(var(--profile-image-y));
   will-change: transform;
 }
 
 .product-profile img {
   width: 100%;
   display: block;
-}
-
-@keyframes enhancedCardPrimary {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(-2deg);
-  }
-  33% {
-    transform: translate3d(-34px, 22px, 0) rotate(2deg);
-  }
-  66% {
-    transform: translate3d(18px, -18px, 0) rotate(-.5deg);
-  }
-}
-
-@keyframes enhancedCardSecondary {
-  0%, 100% {
-    transform: translate3d(0, 0, -80px) rotate(-8deg);
-  }
-  33% {
-    transform: translate3d(28px, -22px, -80px) rotate(-4deg);
-  }
-  66% {
-    transform: translate3d(-16px, 18px, -80px) rotate(-10deg);
-  }
-}
-
-@keyframes enhancedCardTertiary {
-  0%, 100% {
-    transform: translate3d(0, 0, -140px) rotate(7deg);
-  }
-  33% {
-    transform: translate3d(-20px, 18px, -140px) rotate(4deg);
-  }
-  66% {
-    transform: translate3d(22px, -20px, -140px) rotate(9deg);
-  }
 }
 
 /* Pay-to-play */
@@ -3447,11 +3418,17 @@ body.capture-mode .comparison-stage {
 body.capture-mode .profile-story-grid {
   --second-opacity: 1 !important;
   --second-y: 0px !important;
+  --copy-y: 0px !important;
+  --copy-opacity: 1 !important;
   --listing-opacity: 0 !important;
   --listing-scale: 1.02 !important;
   --profile-opacity: 1 !important;
   --profile-y: -160px !important;
-  --browser-scale: 1 !important;
+  --profile-image-y: 0px !important;
+  --profile-scale: 1 !important;
+  --profile-clip: 0% !important;
+  --showcase-y: 0px !important;
+  --showcase-scale: 1 !important;
   min-height: 860px;
 }
 
@@ -3932,11 +3909,17 @@ body.capture-mode .benefit-panel:last-child {
   .profile-story-grid {
     --second-opacity: 1 !important;
     --second-y: 0px !important;
+    --copy-y: 0px !important;
+    --copy-opacity: 1 !important;
     --listing-opacity: 1 !important;
     --listing-scale: 1 !important;
     --profile-opacity: 1 !important;
+    --profile-x: 0px !important;
     --profile-y: 0px !important;
-    --browser-scale: 1 !important;
+    --profile-scale: 1 !important;
+    --profile-clip: 0% !important;
+    --showcase-y: 0px !important;
+    --showcase-scale: 1 !important;
     height: auto;
     grid-template-columns: 1fr;
     gap: 54px;
@@ -3955,7 +3938,7 @@ body.capture-mode .benefit-panel:last-child {
   .product-showcase {
     width: 100%;
     height: auto;
-    min-height: 940px;
+    min-height: 980px;
     transform: none;
   }
 
@@ -3970,21 +3953,17 @@ body.capture-mode .benefit-panel:last-child {
     margin-bottom: 36px;
   }
 
+  .enhanced-card {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translate3d(var(--card-x), var(--card-y), 0) rotate(var(--card-rotate)) scale(var(--card-scale));
+  }
+
   .enhanced-card-primary {
-    left: 30%;
-    top: 0;
     width: min(58%, 360px);
   }
 
-  .enhanced-card-secondary {
-    left: 2%;
-    top: 118px;
-    width: min(48%, 300px);
-  }
-
-  .enhanced-card-tertiary {
-    right: 4%;
-    top: 242px;
+  .enhanced-card-radial {
     width: min(44%, 272px);
   }
 
@@ -3994,6 +3973,8 @@ body.capture-mode .benefit-panel:last-child {
     opacity: 1;
     padding: 0;
     overflow: hidden;
+    clip-path: inset(0 0 0 0 round 18px);
+    transform: none;
   }
 
   .product-profile {

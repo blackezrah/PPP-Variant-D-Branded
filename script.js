@@ -7,6 +7,10 @@ document.documentElement.classList.add("js");
   const lerp = (start, end, progress) => start + (end - start) * progress;
   const ACTIVATION_URL = "https://sso.bestlawyers.com/account/login";
   const easeOutCubic = (value) => 1 - Math.pow(1 - clamp(value), 3);
+  const easeOutExpo = (value) => {
+    const t = clamp(value);
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  };
   const easeInOutCubic = (value) => {
     const t = clamp(value);
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -126,6 +130,10 @@ document.documentElement.classList.add("js");
     const comparisonStage = comparisonTrack?.querySelector(".comparison-stage");
     const profileStory = document.querySelector("[data-profile-story]");
     const profileGrid = profileStory?.querySelector(".profile-story-grid");
+    const profileStage = document.querySelector("[data-profile-stage]");
+    const productListing = document.querySelector("[data-product-listing]");
+    const primaryProfileCard = document.querySelector("[data-profile-primary-card]");
+    const radialProfileCards = [...document.querySelectorAll("[data-profile-radial-card]")];
     const productProfile = document.querySelector("[data-product-profile]");
     const productProfileWrap = document.querySelector("[data-product-profile-wrap]");
     const paySection = document.querySelector("[data-pay-section]");
@@ -482,24 +490,96 @@ document.documentElement.classList.add("js");
     }
 
     function updateProfileStory() {
-      if (!profileStory || !profileGrid || window.innerWidth <= 820 || captureMode) return;
+      if (!profileStory || !profileGrid || captureMode) return;
       const progress = progressFor(metrics.profile);
-      const browserEntrance = easeOutCubic(range(progress, 0, 0.18));
-      const listingExit = easeInOutCubic(range(progress, 0.42, 0.56));
-      const profileEntrance = easeOutCubic(range(progress, 0.5, 0.64));
-      const secondEntrance = easeOutCubic(range(progress, 0.52, 0.72));
-      const profileScroll = easeInOutCubic(range(progress, 0.62, 0.98));
-      const viewportHeight = productProfileWrap?.clientHeight || 0;
-      const profileHeight = productProfile?.offsetHeight || 0;
-      const maxProfileScroll = Math.max(0, profileHeight - viewportHeight + 24);
+      const mobile = window.innerWidth <= 820;
+      const tablet = window.innerWidth <= 1100;
+      const viewportHeight = window.innerHeight;
+      const stageWidth = profileStage?.clientWidth || 700;
+      const stageHeight = productListing?.clientHeight || profileStage?.clientHeight || 620;
 
-      setProperty(profileGrid, "--browser-scale", lerp(0.96, 1, browserEntrance).toFixed(4));
-      setProperty(profileGrid, "--listing-opacity", (1 - listingExit).toFixed(3));
-      setProperty(profileGrid, "--listing-scale", lerp(1, 1.04, listingExit).toFixed(4));
-      setProperty(profileGrid, "--profile-opacity", profileEntrance.toFixed(3));
+      const copyIn = easeOutCubic(range(progress, 0, 0.12));
+      const copyExit = easeInOutCubic(range(progress, 0.84, 1));
+      const copyY = lerp(24, 0, copyIn) + lerp(0, viewportHeight * 0.34, copyExit);
+      const copyOpacity = lerp(0.82, 1, copyIn) * lerp(1, 0, range(progress, 0.9, 1));
+
+      const primaryIn = easeOutCubic(range(progress, 0.02, 0.18));
+      const primarySpin = range(progress, 0.56, 0.64);
+      const takeover = easeOutCubic(range(progress, 0.64, 0.76));
+      const profileHold = range(progress, 0.76, 0.84);
+      const exit = easeInOutCubic(range(progress, 0.84, 1));
+      const secondEntrance = easeOutCubic(range(progress, 0.72, 0.82)) * (1 - copyExit);
+      const radialFade = easeInOutCubic(range(progress, 0.68, 0.76));
+
+      const settleScale = profileHold > 0 ? lerp(1.025, 1, easeOutCubic(range(progress, 0.76, 0.8))) : lerp(0.03, 1.025, takeover);
+      const profileScale = settleScale + lerp(0, -0.025, exit);
+      const profileOpacity = easeOutCubic(range(progress, 0.64, 0.67)) * lerp(1, 0, range(progress, 0.9, 1));
+
+      setProperty(profileGrid, "--copy-y", `${copyY.toFixed(2)}px`);
+      setProperty(profileGrid, "--copy-opacity", copyOpacity.toFixed(3));
+      setProperty(profileGrid, "--showcase-y", `${lerp(16, 0, primaryIn).toFixed(2)}px`);
+      setProperty(profileGrid, "--showcase-scale", lerp(0.94, 1, primaryIn).toFixed(4));
+      setProperty(profileGrid, "--listing-opacity", (1 - radialFade).toFixed(3));
+      setProperty(profileGrid, "--listing-scale", lerp(1, 1.02, takeover).toFixed(4));
+      setProperty(profileGrid, "--profile-opacity", profileOpacity.toFixed(3));
+      setProperty(profileGrid, "--profile-x", `${lerp(0, window.innerWidth * 0.015, exit).toFixed(2)}px`);
+      setProperty(profileGrid, "--profile-y", `${(lerp(0, -viewportHeight * 0.48, exit)).toFixed(2)}px`);
+      setProperty(profileGrid, "--profile-scale", profileScale.toFixed(4));
+      setProperty(profileGrid, "--profile-clip", `${lerp(49, 0, takeover).toFixed(2)}%`);
+      setProperty(profileGrid, "--profile-image-y", "0px");
       setProperty(profileGrid, "--second-opacity", secondEntrance.toFixed(3));
-      setProperty(profileGrid, "--second-y", `${lerp(44, 0, secondEntrance).toFixed(2)}px`);
-      setProperty(profileGrid, "--profile-y", `${-maxProfileScroll * profileScroll}px`);
+      setProperty(profileGrid, "--second-y", `${(lerp(42, 0, secondEntrance) + lerp(0, viewportHeight * 0.2, copyExit)).toFixed(2)}px`);
+
+      const primaryFade = easeInOutCubic(range(progress, 0.66, 0.74));
+      const primaryScale = lerp(0.76, 1, primaryIn)
+        + Math.sin(primarySpin * Math.PI) * 0.04
+        + lerp(0, -0.08, primaryFade);
+      const primaryY = lerp(52, 0, primaryIn);
+      const primaryOpacity = easeOutCubic(range(progress, 0, 0.1)) * (1 - primaryFade);
+      const primaryRotate = lerp(-1.5, 0, primaryIn) + primarySpin * 720;
+
+      primaryProfileCard?.style.setProperty("--card-x", "0px");
+      primaryProfileCard?.style.setProperty("--card-y", `${primaryY.toFixed(2)}px`);
+      primaryProfileCard?.style.setProperty("--card-scale", primaryScale.toFixed(4));
+      primaryProfileCard?.style.setProperty("--card-rotate", `${primaryRotate.toFixed(2)}deg`);
+      primaryProfileCard?.style.setProperty("--card-opacity", primaryOpacity.toFixed(3));
+
+      const cardCount = radialProfileCards.length;
+      const radiusXBase = mobile ? stageWidth * 0.28 : tablet ? stageWidth * 0.34 : stageWidth * 0.4;
+      const radiusYBase = mobile ? stageHeight * 0.23 : tablet ? stageHeight * 0.28 : stageHeight * 0.36;
+      const radiusX = clamp(radiusXBase, mobile ? 112 : 250, mobile ? 190 : 390);
+      const radiusY = clamp(radiusYBase, mobile ? 92 : 178, mobile ? 156 : 282);
+      const radialCount = mobile ? Math.min(7, cardCount) : cardCount;
+
+      radialProfileCards.forEach((card, index) => {
+        if (mobile && index >= radialCount) {
+          card.style.setProperty("--card-opacity", "0");
+          return;
+        }
+
+        const localStart = 0.2 + index * 0.014;
+        const localEnd = localStart + 0.18;
+        const local = easeOutExpo(range(progress, localStart, localEnd));
+        const reverseOrder = cardCount - index - 1;
+        const collapse = easeInOutCubic(range(progress, 0.64 - reverseOrder * 0.004, 0.74 - reverseOrder * 0.004));
+        const visible = easeOutCubic(range(progress, localStart, localStart + 0.07)) * (1 - radialFade);
+        const finalAngle = (index * (360 / radialCount)) * Math.PI / 180;
+        const travelAngle = finalAngle * local;
+        const depth = Math.sin(finalAngle);
+        const finalScale = mobile ? lerp(0.52, 0.62, (depth + 1) / 2) : lerp(0.58, 0.72, (depth + 1) / 2);
+        const radiusFactor = local * (1 - collapse);
+        const x = Math.cos(travelAngle) * radiusX * radiusFactor;
+        const y = Math.sin(travelAngle) * radiusY * radiusFactor;
+        const rotate = lerp(0, clamp(Math.sin(finalAngle) * 4, -4, 4), local) * (1 - collapse);
+        const scale = lerp(0.5, finalScale, local) * lerp(1, 0.92, collapse);
+
+        card.style.setProperty("--card-x", `${x.toFixed(2)}px`);
+        card.style.setProperty("--card-y", `${y.toFixed(2)}px`);
+        card.style.setProperty("--card-scale", scale.toFixed(4));
+        card.style.setProperty("--card-rotate", `${rotate.toFixed(2)}deg`);
+        card.style.setProperty("--card-opacity", visible.toFixed(3));
+        card.style.zIndex = String(6 + Math.round(depth * 3));
+      });
     }
 
     function updateBenefits() {
@@ -512,7 +592,7 @@ document.documentElement.classList.add("js");
     function updatePayHeadlineReveal() {
       if (!paySection || !payHeadline || captureMode) return;
       const progress = progressFor(metrics.pay);
-      const headlineReveal = progress > 0.01 ? 100 : 0;
+      const headlineReveal = easeInOutCubic(range(progress, 0.16, 0.72)) * 100;
       const bottomInset = 100 - headlineReveal;
       setProperty(payHeadline, "--pay-headline-clip", `${bottomInset.toFixed(2)}%`);
       setProperty(paySection, "--pay-headline-accent", "rgb(235,70,74)");
@@ -750,6 +830,34 @@ document.documentElement.classList.add("js");
           setProperty(freeListingScene, "--free-card-y", "0px");
           setProperty(freeListingScene, "--free-card-scale", "1");
           setProperty(freeListingScene, "--free-card-rotate", "0deg");
+        }
+        if (profileGrid) {
+          setProperty(profileGrid, "--copy-y", "0px");
+          setProperty(profileGrid, "--copy-opacity", "1");
+          setProperty(profileGrid, "--showcase-y", "0px");
+          setProperty(profileGrid, "--showcase-scale", "1");
+          setProperty(profileGrid, "--listing-opacity", "1");
+          setProperty(profileGrid, "--listing-scale", "1");
+          setProperty(profileGrid, "--second-opacity", "1");
+          setProperty(profileGrid, "--second-y", "0px");
+          setProperty(profileGrid, "--profile-opacity", "1");
+          setProperty(profileGrid, "--profile-x", "0px");
+          setProperty(profileGrid, "--profile-y", "0px");
+          setProperty(profileGrid, "--profile-image-y", "0px");
+          setProperty(profileGrid, "--profile-scale", "1");
+          setProperty(profileGrid, "--profile-clip", "0%");
+          primaryProfileCard?.style.setProperty("--card-opacity", "1");
+          primaryProfileCard?.style.setProperty("--card-scale", "1");
+          primaryProfileCard?.style.setProperty("--card-x", "0px");
+          primaryProfileCard?.style.setProperty("--card-y", "0px");
+          primaryProfileCard?.style.setProperty("--card-rotate", "0deg");
+          radialProfileCards.forEach((card) => {
+            card.style.setProperty("--card-opacity", "0");
+            card.style.setProperty("--card-scale", ".8");
+            card.style.setProperty("--card-x", "0px");
+            card.style.setProperty("--card-y", "0px");
+            card.style.setProperty("--card-rotate", "0deg");
+          });
         }
         if (paySection && payHeadline) {
           setProperty(payHeadline, "--pay-headline-clip", "0%");
