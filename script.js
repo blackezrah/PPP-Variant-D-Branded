@@ -118,6 +118,7 @@ document.documentElement.classList.add("js");
 
     const counterflowTrack = document.querySelector("[data-counterflow]");
     const counterflowComposition = document.querySelector("[data-counterflow-composition]");
+    const recognitionScene = document.querySelector("[data-recognition-scene]");
     const freeListingScene = document.querySelector("[data-free-listing-scene]");
     const instantTrack = document.querySelector("[data-instant-track]");
     const instantLayout = instantTrack?.querySelector(".instant-layout");
@@ -180,6 +181,7 @@ document.documentElement.classList.add("js");
           top: 0,
           distance: Math.max(1, (hero?.offsetHeight || window.innerHeight) - getHeaderHeight())
         },
+        recognition: getScrollMetrics(recognitionScene),
         freeListing: getScrollMetrics(freeListingScene),
         counterflow: getScrollMetrics(counterflowTrack),
         instant: getScrollMetrics(instantTrack),
@@ -382,6 +384,60 @@ document.documentElement.classList.add("js");
       setProperty(counterflowComposition, "--cf-scale", lerp(0.985, 1, entrance).toFixed(4));
       setProperty(counterflowComposition, "--cf-blur", `${lerp(6, 0, entrance).toFixed(2)}px`);
       setProperty(counterflowComposition, "--cf-focus", focus.toFixed(3));
+    }
+
+    function updateRecognitionScene() {
+      if (!recognitionScene || captureMode) return;
+      const progress = progressFor(metrics.recognition);
+      const mobile = window.innerWidth <= 820;
+      const travelScale = mobile ? 0.72 : window.innerWidth <= 1040 ? 0.82 : 1;
+      const viewportHeight = window.innerHeight;
+      const travel = (value) => viewportHeight * value * travelScale;
+
+      const leftIn = range(progress, 0, 0.18);
+      const leftDrift = range(progress, 0.18, 0.66);
+      const leftExit = range(progress, 0.78, 1);
+      const leftY = lerp(viewportHeight * 0.07 * travelScale, 0, leftIn)
+        + lerp(0, -viewportHeight * 0.04 * travelScale, leftDrift)
+        + lerp(0, -viewportHeight * 0.09 * travelScale, leftExit);
+      const leftOpacity = lerp(0.75, 1, easeOutCubic(leftIn)) * lerp(1, 0, easeInOutCubic(leftExit));
+
+      const ruleIn = easeOutCubic(range(progress, 0.06, 0.18));
+      const ruleOut = easeInOutCubic(range(progress, 0.92, 1));
+
+      const s1In = range(progress, 0.12, 0.34);
+      const s2In = range(progress, 0.28, 0.50);
+      const s3In = range(progress, 0.43, 0.66);
+      const s1Out = range(progress, 0.78, 1);
+      const s2Out = range(progress, 0.78, 1);
+      const s3Out = range(progress, 0.78, 1);
+
+      const exitFade = range(progress, 0.78, 0.92);
+      const statementOpacity = (start, end) => easeOutCubic(range(progress, start, end)) * lerp(1, 0, easeInOutCubic(exitFade));
+
+      setProperty(recognitionScene, "--recognition-copy-y", `${leftY.toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-copy-opacity", leftOpacity.toFixed(3));
+      setProperty(recognitionScene, "--recognition-emphasis", easeOutCubic(range(progress, 0.66, 0.74)).toFixed(3));
+      setProperty(recognitionScene, "--recognition-top-rule-scale", (ruleIn * lerp(1, 0, ruleOut)).toFixed(3));
+      setProperty(recognitionScene, "--recognition-top-rule-opacity", lerp(0.42, 1, ruleIn).toFixed(3));
+
+      setProperty(recognitionScene, "--recognition-s1-x", `${lerp(18, 0, s1In).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s1-y", `${(travel(0.42) * (1 - s1In) + travel(-0.28) * easeInOutCubic(s1Out)).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s1-opacity", statementOpacity(0.12, 0.25).toFixed(3));
+      setProperty(recognitionScene, "--recognition-s1-scale", (lerp(0.985, 1, s1In)).toFixed(4));
+      setProperty(recognitionScene, "--recognition-s1-line", easeOutCubic(range(progress, 0.34, 0.39)).toFixed(3));
+
+      setProperty(recognitionScene, "--recognition-s2-x", `${lerp(13, 0, s2In).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s2-y", `${(travel(0.52) * (1 - s2In) + travel(-0.35) * easeInOutCubic(s2Out)).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s2-opacity", statementOpacity(0.28, 0.42).toFixed(3));
+      setProperty(recognitionScene, "--recognition-s2-scale", (lerp(0.982, 1, s2In)).toFixed(4));
+      setProperty(recognitionScene, "--recognition-s2-line", easeOutCubic(range(progress, 0.50, 0.55)).toFixed(3));
+
+      setProperty(recognitionScene, "--recognition-s3-x", `${lerp(8, 0, s3In).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s3-y", `${(travel(0.62) * (1 - s3In) + travel(-0.44) * easeInOutCubic(s3Out)).toFixed(2)}px`);
+      setProperty(recognitionScene, "--recognition-s3-opacity", statementOpacity(0.43, 0.58).toFixed(3));
+      setProperty(recognitionScene, "--recognition-s3-scale", (lerp(0.975, 1, s3In)).toFixed(4));
+      setProperty(recognitionScene, "--recognition-s3-line", easeOutCubic(range(progress, 0.66, 0.71)).toFixed(3));
     }
 
     function updateInstant() {
@@ -658,6 +714,28 @@ document.documentElement.classList.add("js");
           setProperty(instantLayout, "--stat-opacity", "1");
           setProperty(instantLayout, "--stat-y", "0px");
         }
+        if (recognitionScene) {
+          setProperty(recognitionScene, "--recognition-copy-y", "0px");
+          setProperty(recognitionScene, "--recognition-copy-opacity", "1");
+          setProperty(recognitionScene, "--recognition-emphasis", "1");
+          setProperty(recognitionScene, "--recognition-top-rule-scale", "1");
+          setProperty(recognitionScene, "--recognition-top-rule-opacity", "1");
+          setProperty(recognitionScene, "--recognition-s1-x", "0px");
+          setProperty(recognitionScene, "--recognition-s1-y", "0px");
+          setProperty(recognitionScene, "--recognition-s1-opacity", "1");
+          setProperty(recognitionScene, "--recognition-s1-scale", "1");
+          setProperty(recognitionScene, "--recognition-s1-line", "1");
+          setProperty(recognitionScene, "--recognition-s2-x", "0px");
+          setProperty(recognitionScene, "--recognition-s2-y", "0px");
+          setProperty(recognitionScene, "--recognition-s2-opacity", "1");
+          setProperty(recognitionScene, "--recognition-s2-scale", "1");
+          setProperty(recognitionScene, "--recognition-s2-line", "1");
+          setProperty(recognitionScene, "--recognition-s3-x", "0px");
+          setProperty(recognitionScene, "--recognition-s3-y", "0px");
+          setProperty(recognitionScene, "--recognition-s3-opacity", "1");
+          setProperty(recognitionScene, "--recognition-s3-scale", "1");
+          setProperty(recognitionScene, "--recognition-s3-line", "1");
+        }
         if (freeListingScene) {
           setProperty(freeListingScene, "--free-heading-opacity", "1");
           setProperty(freeListingScene, "--free-heading-y", "0px");
@@ -694,6 +772,7 @@ document.documentElement.classList.add("js");
         return;
       }
       updateHero();
+      updateRecognitionScene();
       updateFreeListingScene();
       updateCounterflow();
       updateInstant();

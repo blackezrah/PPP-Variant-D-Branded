@@ -1406,48 +1406,145 @@ a:focus-visible {
 
 /* Recognition */
 .recognition-section {
-  padding: clamp(164px, 13vw, 220px) 0 clamp(152px, 12vw, 204px);
+  --recognition-copy-y: 7vh;
+  --recognition-copy-opacity: .75;
+  --recognition-emphasis: 0;
+  --recognition-top-rule-scale: 0;
+  --recognition-top-rule-opacity: .42;
+  --recognition-s1-x: 2vw;
+  --recognition-s1-y: 42vh;
+  --recognition-s1-opacity: .25;
+  --recognition-s1-scale: .985;
+  --recognition-s1-line: 0;
+  --recognition-s2-x: 1.5vw;
+  --recognition-s2-y: 52vh;
+  --recognition-s2-opacity: 0;
+  --recognition-s2-scale: .982;
+  --recognition-s2-line: 0;
+  --recognition-s3-x: 1vw;
+  --recognition-s3-y: 62vh;
+  --recognition-s3-opacity: 0;
+  --recognition-s3-scale: .975;
+  --recognition-s3-line: 0;
+  --recognition-line-opacity: .72;
+  height: 252vh;
+  padding: 0;
   background: var(--white);
+  overflow: clip;
+}
+
+.recognition-sticky {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100svh - var(--header-height));
+  display: grid;
+  align-items: center;
+  overflow: clip;
 }
 
 .recognition-grid {
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   gap: clamp(80px, 10vw, 174px);
-  align-items: start;
+  align-items: center;
+  min-height: 100%;
+  padding-top: clamp(52px, 6vh, 88px);
+  padding-bottom: clamp(52px, 6vh, 88px);
 }
 
 .recognition-prose {
   max-width: 610px;
   font-size: clamp(20px, 1.5vw, 24px);
   line-height: 1.55;
+  color: var(--text-muted);
+  opacity: var(--recognition-copy-opacity);
+  transform: translate3d(0, var(--recognition-copy-y), 0);
+  will-change: transform, opacity;
 }
 
 .recognition-prose p {
   margin-bottom: 1.45em;
 }
 
+.recognition-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.recognition-prose span {
+  color: color-mix(in srgb, var(--coral) calc(var(--recognition-emphasis) * 100%), currentColor);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--coral) calc(var(--recognition-emphasis) * 100%), transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+}
+
 .recognition-statements {
-  position: sticky;
-  top: calc(var(--header-height) + 54px);
-  border-top: 1px solid var(--coral);
+  position: relative;
+  padding-top: 2px;
+  color: var(--ink);
 }
 
-.recognition-statements p {
+.recognition-top-rule,
+.recognition-statement > span {
+  display: block;
+  height: 1px;
+  background: var(--coral);
+  transform-origin: left center;
+  will-change: transform, opacity;
+}
+
+.recognition-top-rule {
+  opacity: var(--recognition-top-rule-opacity);
+  transform: scaleX(var(--recognition-top-rule-scale));
+}
+
+.recognition-statement {
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.recognition-statement + .recognition-statement {
+  margin-top: clamp(42px, 5vh, 78px);
+}
+
+.recognition-statement p {
   margin: 0;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
+  padding: clamp(28px, 4.4vh, 52px) 0 clamp(24px, 3.7vh, 44px);
   font-family: var(--display);
-  font-size: clamp(31px, 2.55vw, 44px);
-  line-height: 1.04;
-  opacity: .18;
-  transform: translateY(22px);
-  transition: opacity 520ms ease, transform 520ms ease;
+  font-size: clamp(38px, 3.45vw, 72px);
+  line-height: 1.02;
+  letter-spacing: 0;
 }
 
-.recognition-statements p.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.recognition-statement > span {
+  opacity: var(--recognition-line-opacity);
+}
+
+.recognition-statement-one {
+  opacity: var(--recognition-s1-opacity);
+  transform: translate3d(var(--recognition-s1-x), var(--recognition-s1-y), 0) scale(var(--recognition-s1-scale));
+}
+
+.recognition-statement-one > span {
+  transform: scaleX(var(--recognition-s1-line));
+}
+
+.recognition-statement-two {
+  opacity: var(--recognition-s2-opacity);
+  transform: translate3d(var(--recognition-s2-x), var(--recognition-s2-y), 0) scale(var(--recognition-s2-scale));
+}
+
+.recognition-statement-two > span {
+  transform: scaleX(var(--recognition-s2-line));
+}
+
+.recognition-statement-three {
+  opacity: var(--recognition-s3-opacity);
+  transform: translate3d(var(--recognition-s3-x), var(--recognition-s3-y), 0) scale(var(--recognition-s3-scale));
+}
+
+.recognition-statement-three > span {
+  transform: scaleX(var(--recognition-s3-line));
 }
 
 .free-listing-intro {
@@ -3274,6 +3371,7 @@ body.capture-mode .site-header {
 }
 
 body.capture-mode .counterflow-track,
+body.capture-mode .recognition-section,
 body.capture-mode .instant-track,
 body.capture-mode .comparison-track,
 body.capture-mode .profile-story,
@@ -3282,6 +3380,7 @@ body.capture-mode .benefits-track {
 }
 
 body.capture-mode .counterflow-sticky,
+body.capture-mode .recognition-sticky,
 body.capture-mode .instant-sticky,
 body.capture-mode .comparison-sticky,
 body.capture-mode .profile-sticky,
@@ -3299,6 +3398,29 @@ body.capture-mode .counterflow-composition {
   --cf-scale: 1 !important;
   --cf-blur: 0px !important;
   --cf-focus: 1 !important;
+}
+
+body.capture-mode .recognition-section {
+  --recognition-copy-y: 0px !important;
+  --recognition-copy-opacity: 1 !important;
+  --recognition-emphasis: 1 !important;
+  --recognition-top-rule-scale: 1 !important;
+  --recognition-top-rule-opacity: 1 !important;
+  --recognition-s1-x: 0px !important;
+  --recognition-s1-y: 0px !important;
+  --recognition-s1-opacity: 1 !important;
+  --recognition-s1-scale: 1 !important;
+  --recognition-s1-line: 1 !important;
+  --recognition-s2-x: 0px !important;
+  --recognition-s2-y: 0px !important;
+  --recognition-s2-opacity: 1 !important;
+  --recognition-s2-scale: 1 !important;
+  --recognition-s2-line: 1 !important;
+  --recognition-s3-x: 0px !important;
+  --recognition-s3-y: 0px !important;
+  --recognition-s3-opacity: 1 !important;
+  --recognition-s3-scale: 1 !important;
+  --recognition-s3-line: 1 !important;
 }
 
 body.capture-mode .instant-layout {
@@ -3388,6 +3510,14 @@ body.capture-mode .benefit-panel:last-child {
   .pay-grid,
   .moat-grid {
     gap: 72px;
+  }
+
+  .recognition-grid {
+    grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  }
+
+  .recognition-statement p {
+    font-size: clamp(34px, 3.6vw, 54px);
   }
 
   .counterflow-composition {
@@ -4129,8 +4259,40 @@ body.capture-mode .benefit-panel:last-child {
     border-width: 0 2px 2px 0;
   }
 
-  .recognition-statements p {
-    font-size: 35px;
+  .recognition-section {
+    height: 238vh;
+  }
+
+  .recognition-sticky {
+    align-items: start;
+  }
+
+  .recognition-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+    padding-top: 34px;
+    padding-bottom: 36px;
+  }
+
+  .recognition-prose {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .recognition-prose p {
+    margin-bottom: .82em;
+  }
+
+  .recognition-statement p {
+    padding: 16px 0 14px;
+    font-size: clamp(28px, 8.2vw, 35px);
+    line-height: 1;
+  }
+
+  .recognition-statement + .recognition-statement {
+    margin-top: 16px;
   }
 
   .free-listing-intro h2,
@@ -4255,6 +4417,38 @@ body.capture-mode .benefit-panel:last-child {
   [data-line-reveal] {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .recognition-section {
+    --recognition-copy-y: 0px !important;
+    --recognition-copy-opacity: 1 !important;
+    --recognition-emphasis: 1 !important;
+    --recognition-top-rule-scale: 1 !important;
+    --recognition-top-rule-opacity: 1 !important;
+    --recognition-s1-x: 0px !important;
+    --recognition-s1-y: 0px !important;
+    --recognition-s1-opacity: 1 !important;
+    --recognition-s1-scale: 1 !important;
+    --recognition-s1-line: 1 !important;
+    --recognition-s2-x: 0px !important;
+    --recognition-s2-y: 0px !important;
+    --recognition-s2-opacity: 1 !important;
+    --recognition-s2-scale: 1 !important;
+    --recognition-s2-line: 1 !important;
+    --recognition-s3-x: 0px !important;
+    --recognition-s3-y: 0px !important;
+    --recognition-s3-opacity: 1 !important;
+    --recognition-s3-scale: 1 !important;
+    --recognition-s3-line: 1 !important;
+    height: auto !important;
+    padding: clamp(120px, 12vw, 180px) 0;
+  }
+
+  .recognition-sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    overflow: visible;
   }
 
   .hero-search-stage .hero-search-shell,
